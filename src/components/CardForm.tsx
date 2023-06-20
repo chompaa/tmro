@@ -1,4 +1,5 @@
 import { useState, useRef } from "preact/hooks";
+import { IconPlus, IconX } from "@tabler/icons-preact";
 
 export const CardForm = ({
   addCard,
@@ -26,7 +27,7 @@ export const CardForm = ({
     <div class="w-full">
       <div
         class="rounded-md focus:outline-none resize-none px-3 py-2 h-10 
-                      shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-gray-300 bg-slate-50 flex
+                      shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 bg-slate-50 flex
                       content-center mb-2"
       >
         <textarea
@@ -39,20 +40,29 @@ export const CardForm = ({
           class="h-full w-full resize-none bg-inherit outline-none"
         ></textarea>
       </div>
-      <button
-        class="bg-blue-500 w-fit px-3 py-1 text-slate-100 hover:bg-blue-600
+      <div class="flex gap-2">
+        <button
+          class="bg-slate-900 w-fit px-3 py-1 text-slate-50 hover:bg-slate-950
                      rounded-md"
-        type="submit"
-        onClick={() => handleAddCard()}
-      >
-        Add card
-      </button>
+          type="submit"
+          onClick={() => handleAddCard()}
+        >
+          Add card
+        </button>
+        <button
+          class="rounded-md px-1 hover:bg-slate-300"
+          onClick={() => setActive(false)}
+        >
+          <IconX></IconX>
+        </button>
+      </div>
     </div>
   ) : (
     <button
       onClick={() => setActive(true)}
-      class="w-full text-left px-3 py-1 rounded-md hover:bg-slate-200"
+      class="w-full flex items-center gap-2 text-left px-2 py-1 rounded-md hover:bg-slate-300"
     >
+      <IconPlus size={18}></IconPlus>
       Add a card
     </button>
   );
