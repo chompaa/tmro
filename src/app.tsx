@@ -255,15 +255,15 @@ export function App() {
   return (
     <div>
       <Bar></Bar>
-      <div class="flex mx-4 items-start select-none text-slate-950">
+      <div class="mx-4 flex select-none items-start text-slate-950">
         <DragDropContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           onDragUpdate={handleDragUpdate}
         >
           {lists.map((list: ListItem, index) => (
-            <div class="h-full shadow-black shadow-sm rounded-xl my-8 mx-4">
-              <div class="bg-slate-200 rounded-xl p-3 w-72">
+            <div class="mx-4 my-8 h-full rounded-xl shadow-sm shadow-black">
+              <div class="w-72 rounded-xl bg-slate-200 p-3">
                 <Heading
                   title={list.title}
                   changeTitle={changeTitle}
@@ -287,7 +287,7 @@ export function App() {
                       {provided.placeholder}
                       {snapshot.isDraggingOver && (
                         <div
-                          class="absolute bg-slate-300 rounded-md"
+                          class="absolute rounded-md bg-slate-300"
                           style={{
                             top: placeholderProps.clientY,
                             left: placeholderProps.clientX,

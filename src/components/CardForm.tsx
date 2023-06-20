@@ -26,9 +26,8 @@ export const CardForm = ({
   return active ? (
     <div class="w-full">
       <div
-        class="rounded-md focus:outline-none resize-none px-3 py-2 h-10 
-                      shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 bg-slate-50 flex
-                      content-center mb-2"
+        class="mb-2 flex h-10 resize-none content-center rounded-md bg-slate-50 px-3 py-2 
+               shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 focus:outline-none"
       >
         <textarea
           ref={textArea}
@@ -42,8 +41,7 @@ export const CardForm = ({
       </div>
       <div class="flex gap-2">
         <button
-          class="bg-slate-900 w-fit px-3 py-1 text-slate-50 hover:bg-slate-950
-                     rounded-md"
+          class="w-fit rounded-md bg-slate-900 px-3 py-1 text-slate-50 hover:bg-slate-950"
           type="submit"
           onClick={() => handleAddCard()}
         >
@@ -60,7 +58,7 @@ export const CardForm = ({
   ) : (
     <button
       onClick={() => setActive(true)}
-      class="w-full flex items-center gap-2 text-left px-2 py-1 rounded-md hover:bg-slate-300"
+      class="flex w-full items-center gap-2 rounded-md px-2 py-1 text-left hover:bg-slate-300"
     >
       <IconPlus size={18}></IconPlus>
       Add a card

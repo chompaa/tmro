@@ -48,9 +48,9 @@ export const Heading = ({
         onKeyDown={handleHeadingKeyDown}
         onBlur={(e) => handleHeadingChange(e, index)}
         defaultValue={title}
-        class="overflow-hidden break-words px-3 py-1 bg-inherit resize-none w-full h-9 font-semibold
-                 box-border border-2 border-slate-200 rounded cursor-pointer focus:bg-slate-50
-                 focus:outline-none focus:border-slate-900 focus:cursor-text"
+        class="box-border h-9 w-full cursor-pointer resize-none overflow-hidden break-words rounded 
+               border-2 border-slate-200 bg-inherit px-3 py-1 font-semibold focus:cursor-text 
+             focus:border-slate-900 focus:bg-slate-50 focus:outline-none"
       ></textarea>
     </div>
   );

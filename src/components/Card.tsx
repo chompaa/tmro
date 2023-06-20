@@ -37,20 +37,16 @@ export const Card = ({
               style={style}
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              class={`rounded-md focus:outline-none resize-none px-3 py-2 mb-2 h-10 
-                          shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 flex
-                          content-center items-center ${
-                            snapshot.isDragging
-                              ? "bg-slate-100 "
-                              : "bg-slate-50"
-                          }`}
+              class={`mb-2 flex h-10 resize-none content-center items-center rounded-md px-3 py-2 
+                      shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 focus:outline-none 
+                      ${snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"}`}
             >
               {content}
               {hover && (
                 <button
                   onClick={() => removeCard(listIndex, index)}
-                  class="absolute right-1 left-auto flex items-center justify-center 
-                             content-center p-2 rounded text-slate-400 hover:bg-slate-200"
+                  class="absolute left-auto right-1 flex content-center items-center justify-center 
+                         rounded p-2 text-slate-400 hover:bg-slate-200"
                 >
                   <IconTrash size={16}></IconTrash>
                 </button>
