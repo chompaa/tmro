@@ -287,7 +287,7 @@ export function App() {
                       {provided.placeholder}
                       {snapshot.isDraggingOver && (
                         <div
-                          class="absolute bg-slate-200 rounded-md"
+                          class="absolute bg-slate-300 rounded-md"
                           style={{
                             top: placeholderProps.clientY,
                             left: placeholderProps.clientX,
