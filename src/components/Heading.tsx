@@ -1,7 +1,7 @@
 import { useState, useRef, TargetedEvent, useEffect } from "preact/compat";
 
 import { IconDots, IconTrash } from "@tabler/icons-preact";
-import { IconButton } from "./IconButton";
+import { IconButton } from ".";
 import { DraggableStateSnapshot } from "react-beautiful-dnd";
 
 export const Heading = ({

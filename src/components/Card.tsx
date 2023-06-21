@@ -6,7 +6,7 @@ import {
 import { DragAnimation } from ".";
 import { useState, CSSProperties } from "preact/compat";
 import { IconTrash } from "@tabler/icons-preact";
-import { IconButton } from "./IconButton";
+import { IconButton } from ".";
 
 export const Card = ({
   id,

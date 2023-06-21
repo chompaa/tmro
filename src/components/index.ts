@@ -6,4 +6,4 @@ export { ListForm } from "./ListForm";
 export { DragAnimation } from "./DragAnimation";
 export { Bar } from "./Bar";
 export { Column } from "./Column";
-import { IconButton } from "./IconButton";
+export { IconButton } from "./IconButton";
