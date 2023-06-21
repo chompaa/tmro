@@ -3,7 +3,7 @@ import { IconBrandGithub, IconBrandGithubFilled } from "@tabler/icons-preact";
 export const Bar = () => {
   return (
     <div
-      class="flex w-full items-center border-b-2 border-b-slate-800 p-6 text-3xl font-bold 
+      class="flex w-full items-center border-b-2 border-b-slate-800 p-6 pt-4 text-3xl font-bold 
            text-slate-50"
     >
       <div class="flex items-end gap-4">

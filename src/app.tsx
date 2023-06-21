@@ -108,6 +108,12 @@ export function App() {
     setLists(updatedLists);
   };
 
+  const removeList = (index: number) => {
+    const updatedLists = [...lists];
+    updatedLists.splice(index, 1);
+    setLists(updatedLists);
+  };
+
   const addCard = (index: number, content: string) => {
     const updatedLists = [...lists];
     updatedLists[index].cards.push({ id: uuidv4(), content });
@@ -285,6 +291,7 @@ export function App() {
                     changeTitle={changeTitle}
                     addCard={addCard}
                     removeCard={removeCard}
+                    removeList={removeList}
                     placeholderProps={placeholderProps}
                   ></Column>
                 ))}

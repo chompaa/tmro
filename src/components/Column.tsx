@@ -1,6 +1,7 @@
 import {
   Draggable,
   DraggableProvided,
+  DraggableStateSnapshot,
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
@@ -14,6 +15,7 @@ export const Column = ({
   changeTitle,
   addCard,
   removeCard,
+  removeList,
   placeholderProps,
 }: {
   list: ListItem;
@@ -21,6 +23,7 @@ export const Column = ({
   changeTitle: (index: number, title: string) => void;
   addCard: (index: number, content: string) => void;
   removeCard: (listIndex: number, cardIndex: number) => void;
+  removeList: (index: number) => void;
   placeholderProps: {
     clientX?: number;
     clientY?: number;
@@ -30,7 +33,7 @@ export const Column = ({
 }) => {
   return (
     <Draggable draggableId={`${index}`} index={index}>
-      {(provided: DraggableProvided) => (
+      {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -41,7 +44,9 @@ export const Column = ({
               <Heading
                 title={list.title}
                 changeTitle={changeTitle}
+                removeList={removeList}
                 index={index}
+                snapshot={snapshot}
               ></Heading>
             </div>
             <Droppable droppableId={`${index}`} type={DragType.Card}>

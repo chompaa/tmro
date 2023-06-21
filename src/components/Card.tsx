@@ -6,6 +6,7 @@ import {
 import { DragAnimation } from ".";
 import { useState, CSSProperties } from "preact/compat";
 import { IconTrash } from "@tabler/icons-preact";
+import { IconButton } from "./IconButton";
 
 export const Card = ({
   id,
@@ -43,13 +44,12 @@ export const Card = ({
             >
               {content}
               {hover && (
-                <button
-                  onClick={() => removeCard(listIndex, index)}
-                  class="absolute left-auto right-0 mx-3 flex content-center items-center 
-                         justify-center rounded p-2 text-slate-400 hover:bg-slate-200"
-                >
-                  <IconTrash size={16}></IconTrash>
-                </button>
+                <div class="absolute right-0 mx-3">
+                  <IconButton
+                    clickHandler={() => removeCard(listIndex, index)}
+                    icon={<IconTrash></IconTrash>}
+                  ></IconButton>
+                </div>
               )}
             </div>
           )}
