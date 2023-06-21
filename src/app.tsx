@@ -5,12 +5,10 @@ import {
   DraggableLocation,
   Droppable,
   DroppableProvided,
-  DroppableStateSnapshot,
   DropResult,
 } from "react-beautiful-dnd";
-import { Heading, List, CardForm, Bar, ListForm } from "./components";
-import { ListItem, CardItem } from "./types";
-import { IconPlus } from "@tabler/icons-preact";
+import { Bar, ListForm, Column } from "./components";
+import { ListItem, CardItem, DragType } from "./types";
 
 export function App() {
   const queryAttr = "data-rbd-drag-handle-draggable-id";
@@ -72,13 +70,16 @@ export function App() {
     clientHeight?: number;
   }>({});
 
-  const reorder = (list: CardItem[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
+  const reorder = (
+    items: (CardItem | ListItem)[],
+    startIndex: number,
+    endIndex: number
+  ): (CardItem | ListItem)[] => {
+    const [removed] = items.splice(startIndex, 1);
 
-    result.splice(endIndex, 0, removed);
+    items.splice(endIndex, 0, removed);
 
-    return result;
+    return items;
   };
 
   const move = (
@@ -161,7 +162,7 @@ export function App() {
   const handleDragEnd = (result: DropResult) => {
     setPlaceholderProps({});
 
-    const { source, destination } = result;
+    const { source, destination, type } = result;
 
     if (!destination) {
       return;
@@ -170,29 +171,34 @@ export function App() {
     const sourceId: number = parseInt(source.droppableId);
     const destinationId: number = parseInt(destination.droppableId);
 
-    const updatedCards = [...lists];
+    const updatedLists = [...lists];
 
-    if (sourceId === destinationId) {
-      const items = reorder(
-        lists[sourceId].cards,
-        source.index,
-        destination.index
-      );
+    switch (type) {
+      case DragType.List:
+        reorder(updatedLists, source.index, destination.index);
+        break;
+      case DragType.Card:
+        if (sourceId === destinationId) {
+          reorder(
+            updatedLists[sourceId].cards,
+            source.index,
+            destination.index
+          );
+          break;
+        } else {
+          const result = move(
+            lists[sourceId].cards,
+            lists[destinationId].cards,
+            source,
+            destination
+          );
 
-      updatedCards[sourceId].cards = items;
-    } else {
-      const result = move(
-        lists[sourceId].cards,
-        lists[destinationId].cards,
-        source,
-        destination
-      );
-
-      updatedCards[sourceId].cards = result[sourceId];
-      updatedCards[destinationId].cards = result[destinationId];
+          updatedLists[sourceId].cards = result[sourceId];
+          updatedLists[destinationId].cards = result[destinationId];
+        }
     }
 
-    setLists(updatedCards);
+    setLists(updatedLists);
   };
 
   const handleDragUpdate = (event: any) => {
@@ -261,48 +267,31 @@ export function App() {
           onDragEnd={handleDragEnd}
           onDragUpdate={handleDragUpdate}
         >
-          {lists.map((list: ListItem, index) => (
-            <div class="mx-4 my-8 h-full rounded-xl shadow-sm shadow-black">
-              <div class="w-72 rounded-xl bg-slate-200 p-3">
-                <Heading
-                  title={list.title}
-                  changeTitle={changeTitle}
-                  index={index}
-                ></Heading>
-                <Droppable key={index} droppableId={`${index}`}>
-                  {(
-                    provided: DroppableProvided,
-                    snapshot: DroppableStateSnapshot
-                  ) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      class="relative"
-                    >
-                      <List
-                        cards={list.cards}
-                        index={index}
-                        removeCard={removeCard}
-                      ></List>
-                      {provided.placeholder}
-                      {snapshot.isDraggingOver && (
-                        <div
-                          class="absolute rounded-md bg-slate-300"
-                          style={{
-                            top: placeholderProps.clientY,
-                            left: placeholderProps.clientX,
-                            height: placeholderProps.clientHeight,
-                            width: placeholderProps.clientWidth,
-                          }}
-                        ></div>
-                      )}
-                    </div>
-                  )}
-                </Droppable>
-                <CardForm addCard={addCard} index={index}></CardForm>
+          <Droppable
+            droppableId="all-lists"
+            direction="horizontal"
+            type={DragType.List}
+          >
+            {(provided: DroppableProvided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                class="flex"
+              >
+                {lists.map((list: ListItem, index) => (
+                  <Column
+                    list={list}
+                    index={index}
+                    changeTitle={changeTitle}
+                    addCard={addCard}
+                    removeCard={removeCard}
+                    placeholderProps={placeholderProps}
+                  ></Column>
+                ))}
+                {provided.placeholder}
               </div>
-            </div>
-          ))}
+            )}
+          </Droppable>
         </DragDropContext>
         <ListForm addList={addList}></ListForm>
       </div>

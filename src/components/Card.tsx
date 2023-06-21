@@ -37,8 +37,8 @@ export const Card = ({
               style={style}
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              class={`mb-2 flex h-10 resize-none content-center items-center rounded-md px-3 py-2 
-                      shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 focus:outline-none 
+              class={`mb-2 flex h-10 resize-none content-center items-center rounded-md px-3 
+                      py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 
                       ${snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"}`}
             >
               {content}

@@ -24,9 +24,9 @@ export const CardForm = ({
   };
 
   return active ? (
-    <div class="w-full">
+    <div class="flex w-full flex-col gap-2 p-2 pt-0">
       <div
-        class="mb-2 flex h-10 resize-none content-center rounded-md bg-slate-50 px-3 py-2 
+        class="flex h-10 resize-none content-center rounded-md bg-slate-50 px-3 py-2 
                shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 focus:outline-none"
       >
         <textarea
@@ -56,12 +56,14 @@ export const CardForm = ({
       </div>
     </div>
   ) : (
-    <button
-      onClick={() => setActive(true)}
-      class="flex w-full items-center gap-2 rounded-md px-2 py-1 text-left hover:bg-slate-300"
-    >
-      <IconPlus size={18}></IconPlus>
-      Add a card
-    </button>
+    <div class="p-2 pt-0">
+      <button
+        onClick={() => setActive(true)}
+        class="flex w-full items-center gap-2 rounded-md px-2 py-1 text-left hover:bg-slate-300"
+      >
+        <IconPlus size={18}></IconPlus>
+        Add a card
+      </button>
+    </div>
   );
 };
