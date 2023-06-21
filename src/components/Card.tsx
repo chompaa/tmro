@@ -45,8 +45,8 @@ export const Card = ({
               {hover && (
                 <button
                   onClick={() => removeCard(listIndex, index)}
-                  class="absolute left-auto right-1 flex content-center items-center justify-center 
-                         rounded p-2 text-slate-400 hover:bg-slate-200"
+                  class="absolute left-auto right-0 mx-3 flex content-center items-center 
+                         justify-center rounded p-2 text-slate-400 hover:bg-slate-200"
                 >
                   <IconTrash size={16}></IconTrash>
                 </button>
