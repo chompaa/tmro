@@ -1,5 +1,6 @@
 import { useState, useRef } from "preact/hooks";
 import { IconPlus, IconX } from "@tabler/icons-preact";
+import TextArea from "./TextArea";
 
 export const CardForm = ({
   addCard,
@@ -20,24 +21,22 @@ export const CardForm = ({
 
     addCard(index, content.value);
     content.value = "";
+    content.rows = 1;
     content.focus();
   };
 
   return active ? (
     <div class="flex w-full flex-col gap-2 p-2 pt-0">
       <div
-        class="flex h-10 resize-none content-center rounded-md bg-slate-50 px-3 py-2 
+        class="flex content-center rounded-md bg-slate-50 px-3 py-2 
                shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 focus:outline-none"
       >
-        <textarea
+        <TextArea
           ref={textArea}
-          name={"cardTitle"}
-          spellCheck={false}
-          maxLength={20}
-          placeholder={"Enter a title for this card..."}
-          type={"text"}
-          class="h-full w-full resize-none bg-inherit outline-none"
-        ></textarea>
+          minRows={1}
+          maxRows={5}
+          maxLength={120}
+        ></TextArea>
       </div>
       <div class="flex gap-2">
         <button

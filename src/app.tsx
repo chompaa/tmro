@@ -257,9 +257,7 @@ export function App() {
 
   const getDraggedDom = (draggableId: string) => {
     const domQuery = `[${queryAttr}='${draggableId}']`;
-    const draggedDOM = document.querySelector(domQuery);
-
-    return draggedDOM;
+    return document.querySelector(domQuery);
   };
 
   const signInUser = () => {

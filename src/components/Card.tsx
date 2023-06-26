@@ -38,13 +38,13 @@ export const Card = ({
               style={style}
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              class={`mb-2 flex h-10 resize-none content-center items-center rounded-md px-3 
-                      py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 
+              class={`min-h-10 relative mb-2 flex resize-none content-center items-center break-all 
+                      rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 
                       ${snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"}`}
             >
               {content}
               {hover && (
-                <div class="absolute right-0 mx-3">
+                <div class="absolute right-0 top-0 m-[0.1875rem] rounded bg-slate-200">
                   <IconButton
                     clickHandler={() => removeCard(listIndex, index)}
                     icon={<IconTrash></IconTrash>}

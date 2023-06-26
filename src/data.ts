@@ -46,6 +46,10 @@ export const defaultData = [
         id: uuidv4(),
         content: "implement player movement",
       },
+      {
+        id: uuidv4(),
+        content: "meet with investors to discuss marketing strategy and budget",
+      },
     ],
   },
 ];
