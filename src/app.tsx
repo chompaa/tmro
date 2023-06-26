@@ -11,7 +11,7 @@ import { Bar, ListForm, Column } from "./components";
 import { ListItem, CardItem, DragType } from "./types";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, child } from "firebase/database";
-import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { defaultData } from "./data";
 
 export function App() {
@@ -259,7 +259,7 @@ export function App() {
 	const auth = () => {
 	  const auth = getAuth();
 
-		signInWithRedirect(auth, provider);
+		signInWithPopup(auth, provider);
 	}
 
 	useEffect(() => {
