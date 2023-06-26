@@ -13,7 +13,7 @@ export const List = ({
 }) => {
   return (
     <>
-      {cards.map((card: CardItem, idx: number) => (
+      {cards?.map((card: CardItem, idx: number) => (
         <Card
           key={card.id}
           id={card.id}

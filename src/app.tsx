@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import {
   DragDropContext,
   DraggableLocation,
@@ -9,59 +9,31 @@ import {
 } from "react-beautiful-dnd";
 import { Bar, ListForm, Column } from "./components";
 import { ListItem, CardItem, DragType } from "./types";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, get, child } from "firebase/database";
+import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { defaultData } from "./data";
 
 export function App() {
   const queryAttr = "data-rbd-drag-handle-draggable-id";
 
-  const [lists, setLists] = useState<ListItem[]>([
-    {
-      title: "to do",
-      cards: [
-        {
-          id: uuidv4(),
-          content: "add sprites",
-        },
-        {
-          id: uuidv4(),
-          content: "implement main menu",
-        },
-        {
-          id: uuidv4(),
-          content: "add sounds",
-        },
-      ],
-    },
-    {
-      title: "in progress",
-      cards: [
-        {
-          id: uuidv4(),
-          content: "write story",
-        },
-        {
-          id: uuidv4(),
-          content: "add levels",
-        },
-        {
-          id: uuidv4(),
-          content: "send demo to friends",
-        },
-        {
-          id: uuidv4(),
-          content: "marketing",
-        },
-      ],
-    },
-    {
-      title: "done",
-      cards: [
-        {
-          id: uuidv4(),
-          content: "implement player movement",
-        },
-      ],
-    },
-  ]);
+	const firebaseConfig = {
+		apiKey: "AIzaSyDCI-G8rde1guG1vIVhBzb9p1e8jzSP3a4",
+		authDomain: "trello-clone-b3c76.firebaseapp.com",
+		databaseURL: "https://trello-clone-b3c76-default-rtdb.europe-west1.firebasedatabase.app",
+		projectId: "trello-clone-b3c76",
+		storageBucket: "trello-clone-b3c76.appspot.com",
+		messagingSenderId: "712863136216",
+		appId: "1:712863136216:web:00020f5948777f3f415aad"
+	};
+	
+	initializeApp(firebaseConfig);
+
+	const provider = new GoogleAuthProvider();
+
+	const [user, setUser] = useState<string | undefined>(undefined);
+
+  const [lists, setLists] = useState<ListItem[]>([]);
 
   const [placeholderProps, setPlaceholderProps] = useState<{
     clientX?: number;
@@ -69,6 +41,20 @@ export function App() {
     clientWidth?: number;
     clientHeight?: number;
   }>({});
+
+	const updateLists = (updatedLists: ListItem[]) => {
+		setLists(updatedLists);
+
+		if (!user) {
+		  return;
+		}
+
+	  const db = getDatabase();
+
+		set(ref(db, `users/${user}`), {
+			lists: updatedLists 
+		});
+	}
 
   const reorder = (
     items: (CardItem | ListItem)[],
@@ -105,31 +91,37 @@ export function App() {
   const addList = (title: string) => {
     const updatedLists = [...lists];
     updatedLists.push({ title, cards: [] });
-    setLists(updatedLists);
+		updateLists(updatedLists)
   };
 
   const removeList = (index: number) => {
     const updatedLists = [...lists];
     updatedLists.splice(index, 1);
-    setLists(updatedLists);
+		updateLists(updatedLists)
   };
 
   const addCard = (index: number, content: string) => {
     const updatedLists = [...lists];
+    
+		// empty card lists don't get stored in the database
+		if (!updatedLists[index].cards) {
+		  updatedLists[index].cards = [];
+	  }
+
     updatedLists[index].cards.push({ id: uuidv4(), content });
-    setLists(updatedLists);
+		updateLists(updatedLists)
   };
 
   const removeCard = (listIndex: number, cardIndex: number) => {
     const updatedLists = [...lists];
     updatedLists[listIndex].cards.splice(cardIndex, 1);
-    setLists(updatedLists);
+		updateLists(updatedLists)
   };
 
   const changeTitle = (index: number, title: string) => {
     const updatedLists = [...lists];
     updatedLists[index].title = title;
-    setLists(updatedLists);
+		updateLists(updatedLists)
   };
 
   const handleDragStart = (event: any) => {
@@ -204,7 +196,7 @@ export function App() {
         }
     }
 
-    setLists(updatedLists);
+		updateLists(updatedLists)
   };
 
   const handleDragUpdate = (event: any) => {
@@ -264,9 +256,37 @@ export function App() {
     return draggedDOM;
   };
 
+	const auth = () => {
+	  const auth = getAuth();
+
+		signInWithRedirect(auth, provider);
+	}
+
+	useEffect(() => {
+    const auth = getAuth();
+
+		auth.onAuthStateChanged((user) => {
+			if (!user) {
+			  return;
+			}
+
+			setUser(user.uid);
+
+			const db = getDatabase();
+
+			get(child(ref(db), `users/${user.uid}`)).then((snapshot) => {
+				if (snapshot.exists()) {
+					setLists(snapshot.val().lists);
+				} else {
+					updateLists(defaultData);
+				}
+			});
+		})
+	}, [])
+
   return (
     <div>
-      <Bar></Bar>
+      <Bar auth={auth}></Bar>
       <div class="mx-4 flex select-none items-start text-slate-950">
         <DragDropContext
           onDragStart={handleDragStart}
@@ -284,7 +304,7 @@ export function App() {
                 {...provided.droppableProps}
                 class="flex"
               >
-                {lists.map((list: ListItem, index) => (
+                {lists?.map((list: ListItem, index) => (
                   <Column
                     list={list}
                     index={index}
