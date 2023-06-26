@@ -17,21 +17,22 @@ import { defaultData } from "./data";
 export function App() {
   const queryAttr = "data-rbd-drag-handle-draggable-id";
 
-	const firebaseConfig = {
-		apiKey: "AIzaSyDCI-G8rde1guG1vIVhBzb9p1e8jzSP3a4",
-		authDomain: "trello-clone-b3c76.firebaseapp.com",
-		databaseURL: "https://trello-clone-b3c76-default-rtdb.europe-west1.firebasedatabase.app",
-		projectId: "trello-clone-b3c76",
-		storageBucket: "trello-clone-b3c76.appspot.com",
-		messagingSenderId: "712863136216",
-		appId: "1:712863136216:web:00020f5948777f3f415aad"
-	};
-	
-	initializeApp(firebaseConfig);
+  const firebaseConfig = {
+    apiKey: "AIzaSyDCI-G8rde1guG1vIVhBzb9p1e8jzSP3a4",
+    authDomain: "trello-clone-b3c76.firebaseapp.com",
+    databaseURL:
+      "https://trello-clone-b3c76-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "trello-clone-b3c76",
+    storageBucket: "trello-clone-b3c76.appspot.com",
+    messagingSenderId: "712863136216",
+    appId: "1:712863136216:web:00020f5948777f3f415aad",
+  };
 
-	const provider = new GoogleAuthProvider();
+  initializeApp(firebaseConfig);
 
-	const [user, setUser] = useState<string | undefined>(undefined);
+  const provider = new GoogleAuthProvider();
+
+  const [user, setUser] = useState<string | undefined>(undefined);
 
   const [lists, setLists] = useState<ListItem[]>([]);
 
@@ -42,19 +43,19 @@ export function App() {
     clientHeight?: number;
   }>({});
 
-	const updateLists = (updatedLists: ListItem[]) => {
-		setLists(updatedLists);
+  const updateLists = (updatedLists: ListItem[]) => {
+    setLists(updatedLists);
 
-		if (!user) {
-		  return;
-		}
+    if (!user) {
+      return;
+    }
 
-	  const db = getDatabase();
+    const db = getDatabase();
 
-		set(ref(db, `users/${user}`), {
-			lists: updatedLists 
-		});
-	}
+    set(ref(db, `users/${user}`), {
+      lists: updatedLists,
+    });
+  };
 
   const reorder = (
     items: (CardItem | ListItem)[],
@@ -91,37 +92,37 @@ export function App() {
   const addList = (title: string) => {
     const updatedLists = [...lists];
     updatedLists.push({ title, cards: [] });
-		updateLists(updatedLists)
+    updateLists(updatedLists);
   };
 
   const removeList = (index: number) => {
     const updatedLists = [...lists];
     updatedLists.splice(index, 1);
-		updateLists(updatedLists)
+    updateLists(updatedLists);
   };
 
   const addCard = (index: number, content: string) => {
     const updatedLists = [...lists];
-    
-		// empty card lists don't get stored in the database
-		if (!updatedLists[index].cards) {
-		  updatedLists[index].cards = [];
-	  }
+
+    // empty card lists don't get stored in the database
+    if (!updatedLists[index].cards) {
+      updatedLists[index].cards = [];
+    }
 
     updatedLists[index].cards.push({ id: uuidv4(), content });
-		updateLists(updatedLists)
+    updateLists(updatedLists);
   };
 
   const removeCard = (listIndex: number, cardIndex: number) => {
     const updatedLists = [...lists];
     updatedLists[listIndex].cards.splice(cardIndex, 1);
-		updateLists(updatedLists)
+    updateLists(updatedLists);
   };
 
   const changeTitle = (index: number, title: string) => {
     const updatedLists = [...lists];
     updatedLists[index].title = title;
-		updateLists(updatedLists)
+    updateLists(updatedLists);
   };
 
   const handleDragStart = (event: any) => {
@@ -196,7 +197,7 @@ export function App() {
         }
     }
 
-		updateLists(updatedLists)
+    updateLists(updatedLists);
   };
 
   const handleDragUpdate = (event: any) => {
@@ -256,33 +257,33 @@ export function App() {
     return draggedDOM;
   };
 
-	const auth = () => {
-	  const auth = getAuth();
-
-		signInWithPopup(auth, provider);
-	}
-
-	useEffect(() => {
+  const auth = () => {
     const auth = getAuth();
 
-		auth.onAuthStateChanged((user) => {
-			if (!user) {
-			  return;
-			}
+    signInWithPopup(auth, provider);
+  };
 
-			setUser(user.uid);
+  useEffect(() => {
+    const auth = getAuth();
 
-			const db = getDatabase();
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        return;
+      }
 
-			get(child(ref(db), `users/${user.uid}`)).then((snapshot) => {
-				if (snapshot.exists()) {
-					setLists(snapshot.val().lists);
-				} else {
-					updateLists(defaultData);
-				}
-			});
-		})
-	}, [])
+      setUser(user.uid);
+
+      const db = getDatabase();
+
+      get(child(ref(db), `users/${user.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          setLists(snapshot.val().lists);
+        } else {
+          updateLists(defaultData);
+        }
+      });
+    });
+  }, []);
 
   return (
     <div>

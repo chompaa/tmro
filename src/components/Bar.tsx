@@ -1,16 +1,24 @@
 import { IconBrandGithub, IconBrandGithubFilled } from "@tabler/icons-preact";
 
-export const Bar = ({ user, auth }: { user: string | undefined, auth: () => void }) => {
+export const Bar = ({
+  user,
+  auth,
+}: {
+  user: string | undefined;
+  auth: () => void;
+}) => {
   return (
     <div
       class="flex w-full content-center items-center border-b-2 border-b-slate-800 px-8 py-6 
            font-bold text-slate-50"
     >
       <div class="flex items-center gap-6">
-        <div class="relative md:text-3xl text-2xl whitespace-nowrap">trello clone</div>
+        <div class="relative whitespace-nowrap text-2xl md:text-3xl">
+          trello clone
+        </div>
         <button
-          class="rounded-md border-2 border-slate-50 px-2 py-1 hover:bg-slate-50 hover:text-slate-900 
-					       whitespace-nowrap"
+          class="whitespace-nowrap rounded-md border-2 border-slate-50 px-2 py-1 hover:bg-slate-50 
+					       hover:text-slate-900"
           onClick={() => auth()}
         >
           Sign in
@@ -26,7 +34,7 @@ export const Bar = ({ user, auth }: { user: string | undefined, auth: () => void
             <IconBrandGithubFilled></IconBrandGithubFilled>
           </a>
         </div>
-				{user}
+        {user}
       </div>
     </div>
   );
