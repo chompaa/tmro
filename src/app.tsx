@@ -11,7 +11,12 @@ import { Bar, ListForm, Column } from "./components";
 import { ListItem, CardItem, DragType } from "./types";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, child } from "firebase/database";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { defaultData } from "./data";
 
 export function App() {
@@ -257,10 +262,19 @@ export function App() {
     return draggedDOM;
   };
 
-  const auth = () => {
+  const signInUser = () => {
     const auth = getAuth();
 
     signInWithPopup(auth, provider);
+  };
+
+  const signOutUser = () => {
+    const auth = getAuth();
+
+    signOut(auth).then(() => {
+      setLists([]);
+      setUser(undefined);
+    });
   };
 
   useEffect(() => {
@@ -287,7 +301,7 @@ export function App() {
 
   return (
     <div>
-      <Bar auth={auth} user={user}></Bar>
+      <Bar signIn={signInUser} signOut={signOutUser} user={user}></Bar>
       <div class="mx-4 flex select-none items-start text-slate-950">
         <DragDropContext
           onDragStart={handleDragStart}
