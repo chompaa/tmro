@@ -286,7 +286,7 @@ export function App() {
 
   return (
     <div>
-      <Bar auth={auth}></Bar>
+      <Bar auth={auth} user={user}></Bar>
       <div class="mx-4 flex select-none items-start text-slate-950">
         <DragDropContext
           onDragStart={handleDragStart}
