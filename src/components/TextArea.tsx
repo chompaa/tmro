@@ -6,6 +6,10 @@ const TextArea = forwardRef(function TextArea(
     children,
     styles,
     placeholder,
+    defaultValue,
+    onKeyDown,
+    onBlur,
+    onBlurCapture,
     minRows,
     maxRows,
     maxLength,
@@ -13,6 +17,10 @@ const TextArea = forwardRef(function TextArea(
     children?: string;
     styles?: string;
     placeholder?: string;
+    defaultValue?: string;
+    onKeyDown?: (e: KeyboardEvent) => void;
+    onBlur?: (e: TargetedEvent<HTMLTextAreaElement>) => void;
+    onBlurCapture?: (e: TargetedEvent<HTMLTextAreaElement>) => void;
     minRows: number;
     maxRows: number;
     maxLength: number;
@@ -52,6 +60,10 @@ const TextArea = forwardRef(function TextArea(
       maxLength={maxLength}
       placeholder={placeholder}
       onChange={handleChange}
+      defaultValue={defaultValue}
+      onKeyDown={onKeyDown}
+      onBlur={onBlur}
+      onBlurCapture={onBlurCapture}
     >
       {children}
     </textarea>

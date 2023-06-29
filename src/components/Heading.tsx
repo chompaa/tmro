@@ -3,6 +3,7 @@ import { useState, useRef, TargetedEvent, useEffect } from "preact/compat";
 import { IconDots, IconTrash } from "@tabler/icons-preact";
 import { IconButton } from ".";
 import { DraggableStateSnapshot } from "react-beautiful-dnd";
+import TextArea from "./TextArea";
 
 export const Heading = ({
   title,
@@ -54,36 +55,37 @@ export const Heading = ({
   }, [snapshot, textAreaActive]);
 
   return (
-    <div class="relative flex items-center p-2">
-      <div
-        class={`absolute left-0 top-0 h-full w-full ${
-          textAreaActive ? "hidden" : "cursor-pointer"
-        }`}
-        onClick={() => {
-          setTextAreaActive(true);
-          textArea.current?.focus();
-        }}
-      ></div>
-      <textarea
-        ref={textArea}
-        spellcheck={false}
-        dir="auto"
-        maxLength={15}
-        onBlurCapture={() => {
-          setTextAreaActive(false);
-        }}
-        onKeyDown={handleHeadingKeyDown}
-        onBlur={handleHeadingChange}
-        defaultValue={title}
-        class="box-border h-9 w-full cursor-pointer resize-none overflow-hidden break-words rounded 
+    <div class="flex">
+      <div class="relative flex w-full items-center p-2">
+        <div
+          class={`absolute left-0 top-0 h-full w-full ${
+            textAreaActive ? "hidden" : "cursor-pointer"
+          }`}
+          onClick={() => {
+            setTextAreaActive(true);
+            textArea.current?.focus();
+          }}
+        ></div>
+        <TextArea
+          ref={textArea}
+          styles="box-border min-h-9 w-full cursor-pointer resize-none overflow-hidden break-words rounded 
                   border-2 border-slate-200 bg-inherit px-3 py-1 font-semibold focus:cursor-text 
-                focus:border-slate-900 focus:bg-slate-50 focus:outline-none"
-      ></textarea>
-      <div class="absolute right-0 m-2 block">
+                  focus:border-slate-900 focus:bg-slate-50 focus:outline-none"
+          minRows={1}
+          maxRows={4}
+          maxLength={70}
+          onKeyDown={handleHeadingKeyDown}
+          onBlur={handleHeadingChange}
+          onBlurCapture={() => {
+            setTextAreaActive(false);
+          }}
+          defaultValue={title}
+        ></TextArea>
+      </div>
+      <div class="m-2 ml-0">
         <IconButton
           icon={<IconDots></IconDots>}
           clickHandler={() => setMenuActive(!menuActive)}
-          disabled={textAreaActive}
         ></IconButton>
         {menuActive && !textAreaActive && (
           <div
