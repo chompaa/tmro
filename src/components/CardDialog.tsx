@@ -5,7 +5,7 @@ import {
   IconX,
 } from "@tabler/icons-preact";
 import TextArea from "./TextArea";
-import { createPortal, useEffect, useRef, useState } from "preact/compat";
+import { createPortal, useRef, useState } from "preact/compat";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import { TodoItem } from "../types";
