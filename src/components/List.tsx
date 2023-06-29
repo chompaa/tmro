@@ -5,13 +5,15 @@ import { CardItem } from "../types";
 export const List = ({
   title,
   cards,
-  index,
+  changeContent,
+  changeDescription,
   removeCard,
 }: {
   title: string;
   cards: CardItem[];
-  index: number;
-  removeCard: (listIndex: number, cardIndex: number) => void;
+  changeContent: (index: number, content: string) => void;
+  changeDescription: (index: number, description: string) => void;
+  removeCard: (cardIndex: number) => void;
 }) => {
   return (
     <>
@@ -21,9 +23,13 @@ export const List = ({
           id={card.id}
           index={idx}
           listTitle={title}
-          listIndex={index}
           content={card.content}
-          removeCard={removeCard}
+          description={card.description}
+          changeContent={(content: string) => changeContent(idx, content)}
+          changeDescription={(description: string) =>
+            changeDescription(idx, description)
+          }
+          removeCard={() => removeCard(idx)}
         ></Card>
       ))}
     </>

@@ -3,12 +3,14 @@ import { TargetedEvent, forwardRef, useState } from "preact/compat";
 
 const TextArea = forwardRef(function TextArea(
   {
+    children,
     styles,
     placeholder,
     minRows,
     maxRows,
     maxLength,
   }: {
+    children?: string;
     styles?: string;
     placeholder?: string;
     minRows: number;
@@ -50,7 +52,9 @@ const TextArea = forwardRef(function TextArea(
       maxLength={maxLength}
       placeholder={placeholder}
       onChange={handleChange}
-    ></textarea>
+    >
+      {children}
+    </textarea>
   );
 });
 

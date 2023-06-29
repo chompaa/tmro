@@ -4,10 +4,8 @@ import TextArea from "./TextArea";
 
 export const CardForm = ({
   addCard,
-  index,
 }: {
-  addCard: (index: number, content: string) => void;
-  index: number;
+  addCard: (content: string) => void;
 }) => {
   const [active, setActive] = useState<boolean>(false);
   const textArea = useRef<HTMLTextAreaElement>(null);
@@ -19,7 +17,7 @@ export const CardForm = ({
       return;
     }
 
-    addCard(index, content.value);
+    addCard(content.value);
     content.value = "";
     content.rows = 1;
     content.focus();

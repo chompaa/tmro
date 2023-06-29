@@ -124,6 +124,26 @@ export function App() {
     updateLists(updatedLists);
   };
 
+  const changeDescription = (
+    listIndex: number,
+    cardIndex: number,
+    description: string
+  ) => {
+    const updatedLists = [...lists];
+    updatedLists[listIndex].cards[cardIndex].description = description;
+    updateLists(updatedLists);
+  };
+
+  const changeContent = (
+    listIndex: number,
+    cardIndex: number,
+    content: string
+  ) => {
+    const updatedLists = [...lists];
+    updatedLists[listIndex].cards[cardIndex].content = content;
+    updateLists(updatedLists);
+  };
+
   const changeTitle = (index: number, title: string) => {
     const updatedLists = [...lists];
     updatedLists[index].title = title;
@@ -321,10 +341,19 @@ export function App() {
                   <Column
                     list={list}
                     index={index}
-                    changeTitle={changeTitle}
-                    addCard={addCard}
-                    removeCard={removeCard}
-                    removeList={removeList}
+                    changeTitle={(title: string) => changeTitle(index, title)}
+                    changeContent={(cardIndex: number, content: string) =>
+                      changeContent(index, cardIndex, content)
+                    }
+                    changeDescription={(
+                      cardIndex: number,
+                      description: string
+                    ) => changeDescription(index, cardIndex, description)}
+                    addCard={(content: string) => addCard(index, content)}
+                    removeCard={(cardIndex: number) =>
+                      removeCard(index, cardIndex)
+                    }
+                    removeList={() => removeList(index)}
                     placeholderProps={placeholderProps}
                   ></Column>
                 ))}

@@ -11,27 +11,32 @@ const CardDialog = ({
   active,
   setActive,
   listTitle,
+  description,
   content,
+  changeContent,
+  changeDescription,
 }: {
   active: boolean;
   setActive: (active: boolean) => void;
   listTitle: string;
   content: string;
+  description?: string;
+  changeContent: (content: string) => void;
+  changeDescription: (description: string) => void;
 }) => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const handleClose = () => {
     setActive(false);
-  };
 
-  useEffect(() => {
-    if (!contentRef.current) {
+    if (!contentRef.current || !descriptionRef.current) {
       return;
     }
 
-    contentRef.current.value = content;
-  }, [active, content]);
+    changeContent(contentRef.current.value);
+    changeDescription(descriptionRef.current.value);
+  };
 
   return (
     <div class="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-slate-900/75">
@@ -69,7 +74,7 @@ const CardDialog = ({
             <IconAlignJustified class="text-slate-500"></IconAlignJustified>
             <h1 class="h-fit px-3 py-1 font-semibold">Description</h1>
           </div>
-          <div class="ml-[3.25rem] mr-2">
+          <div class="ml-[3.25rem]">
             <TextArea
               ref={descriptionRef}
               placeholder="Add a more detailed description..."
@@ -79,7 +84,7 @@ const CardDialog = ({
               maxRows={4}
               maxLength={100}
             >
-              {content}
+              {description}
             </TextArea>
           </div>
         </div>
@@ -92,7 +97,7 @@ const CardDialog = ({
             <div class="absolute">
               <div class="-ml-2 w-10 text-center">100%</div>
             </div>
-            <div class="my-2 ml-[2.75rem] h-2 w-full rounded bg-slate-300"></div>
+            <div class="my-2 -mr-2 ml-[2.75rem] h-2 w-full rounded bg-slate-300"></div>
           </div>
           <button class="mb-2 ml-[3.25rem] rounded-md bg-slate-900 px-2 py-1 text-slate-50 hover:bg-slate-950">
             Add an item

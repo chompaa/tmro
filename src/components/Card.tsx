@@ -12,17 +12,21 @@ import CardDialog from "./CardDialog";
 export const Card = ({
   id,
   listTitle,
-  listIndex,
   index,
   content,
+  description,
+  changeContent,
+  changeDescription,
   removeCard,
 }: {
   id: string;
   listTitle: string;
-  listIndex: number;
   index: number;
   content: string;
-  removeCard: (listIndex: number, cardIndex: number) => void;
+  description?: string;
+  changeContent: (content: string) => void;
+  changeDescription: (description: string) => void;
+  removeCard: () => void;
 }) => {
   const [hover, setHover] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
@@ -52,7 +56,7 @@ export const Card = ({
                 {hover && (
                   <div class="absolute right-0 top-0 m-[0.1875rem] rounded bg-slate-200">
                     <IconButton
-                      clickHandler={() => removeCard(listIndex, index)}
+                      clickHandler={() => removeCard()}
                       icon={<IconTrash></IconTrash>}
                     ></IconButton>
                   </div>
@@ -69,6 +73,9 @@ export const Card = ({
             setActive={setEditing}
             listTitle={listTitle}
             content={content}
+            description={description}
+            changeContent={changeContent}
+            changeDescription={changeDescription}
           />,
           document.body
         )}

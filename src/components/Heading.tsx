@@ -8,13 +8,11 @@ export const Heading = ({
   title,
   changeTitle,
   removeList,
-  index,
   snapshot,
 }: {
   title: string;
-  changeTitle: (index: number, title: string) => void;
-  removeList: (index: number) => void;
-  index: number;
+  changeTitle: (title: string) => void;
+  removeList: () => void;
   snapshot: DraggableStateSnapshot;
 }) => {
   const textArea = useRef<HTMLTextAreaElement>(null);
@@ -22,15 +20,12 @@ export const Heading = ({
   const [heading, setHeading] = useState<string>(title);
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
-  const handleHeadingChange = (
-    e: TargetedEvent<HTMLTextAreaElement>,
-    index: number
-  ) => {
+  const handleHeadingChange = (e: TargetedEvent<HTMLTextAreaElement>) => {
     const target = e.target as HTMLTextAreaElement;
     const title = target.value;
 
     if (title) {
-      changeTitle(index, title);
+      changeTitle(title);
       setHeading(title);
     } else {
       target.value = heading;
@@ -78,7 +73,7 @@ export const Heading = ({
           setTextAreaActive(false);
         }}
         onKeyDown={handleHeadingKeyDown}
-        onBlur={(e) => handleHeadingChange(e, index)}
+        onBlur={handleHeadingChange}
         defaultValue={title}
         class="box-border h-9 w-full cursor-pointer resize-none overflow-hidden break-words rounded 
                   border-2 border-slate-200 bg-inherit px-3 py-1 font-semibold focus:cursor-text 
@@ -100,7 +95,7 @@ export const Heading = ({
               <button
                 class="mx-0 flex w-full items-center gap-2 rounded-md px-2 py-1 text-left 
                      hover:bg-slate-300"
-                onClick={() => removeList(index)}
+                onClick={() => removeList()}
               >
                 <IconTrash size={16}></IconTrash>
                 Archive this list

@@ -1,6 +1,7 @@
 export interface CardItem {
   id: string;
   content: string;
+  description?: string;
 }
 
 export interface ListItem {

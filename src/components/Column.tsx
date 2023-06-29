@@ -13,6 +13,8 @@ export const Column = ({
   list,
   index,
   changeTitle,
+  changeContent,
+  changeDescription,
   addCard,
   removeCard,
   removeList,
@@ -20,10 +22,12 @@ export const Column = ({
 }: {
   list: ListItem;
   index: number;
-  changeTitle: (index: number, title: string) => void;
-  addCard: (index: number, content: string) => void;
-  removeCard: (listIndex: number, cardIndex: number) => void;
-  removeList: (index: number) => void;
+  changeTitle: (title: string) => void;
+  changeContent: (cardIndex: number, content: string) => void;
+  changeDescription: (cardIndex: number, description: string) => void;
+  addCard: (content: string) => void;
+  removeCard: (cardIndex: number) => void;
+  removeList: () => void;
   placeholderProps: {
     clientX?: number;
     clientY?: number;
@@ -45,7 +49,6 @@ export const Column = ({
                 title={list.title}
                 changeTitle={changeTitle}
                 removeList={removeList}
-                index={index}
                 snapshot={snapshot}
               ></Heading>
             </div>
@@ -62,7 +65,8 @@ export const Column = ({
                   <List
                     title={list.title}
                     cards={list.cards}
-                    index={index}
+                    changeContent={changeContent}
+                    changeDescription={changeDescription}
                     removeCard={removeCard}
                   ></List>
                   {provided.placeholder}
@@ -80,7 +84,7 @@ export const Column = ({
                 </div>
               )}
             </Droppable>
-            <CardForm addCard={addCard} index={index}></CardForm>
+            <CardForm addCard={addCard}></CardForm>
           </div>
         </div>
       )}
