@@ -77,8 +77,8 @@ const CardDialog = ({
   };
 
   return createPortal(
-    <div class="absolute left-0 top-0 flex h-screen w-screen justify-center bg-slate-900/75 p-10">
-      <div class="m-2 flex h-fit w-full flex-col gap-4 rounded-xl bg-slate-200 px-6 py-4 lg:w-1/3">
+    <div class="fixed left-0 top-0 m-2 flex h-screen w-screen justify-center bg-slate-900/75">
+      <div class="mb-1 flex h-fit max-h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden rounded-xl bg-slate-200 px-6 py-4 lg:w-1/3">
         <div>
           <div class="flex items-center gap-2 p-2">
             <IconLayoutCards class="text-slate-500"></IconLayoutCards>
@@ -132,8 +132,8 @@ const CardDialog = ({
             <h1 class="h-fit px-3 py-1 font-semibold">Checklist</h1>
           </div>
           <div class="flex items-center gap-2 px-2 pb-2">
-            <div class="absolute">
-              <div class="-ml-2 w-10 text-center">
+            <div class="relative">
+              <div class="absolute -ml-2 -mt-3 w-10 text-center">
                 {getTodoPercentComplete()}
               </div>
             </div>
