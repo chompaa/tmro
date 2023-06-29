@@ -77,14 +77,21 @@ const CardDialog = ({
   };
 
   return createPortal(
-    <div class="fixed left-0 top-0 m-2 flex h-screen w-screen justify-center bg-slate-900/75">
-      <div class="mb-1 flex h-fit max-h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden rounded-xl bg-slate-200 px-6 py-4 lg:w-1/3">
+    <div
+      class="max-w-screen fixed left-0 top-0 flex h-screen max-h-screen w-screen content-center 
+             justify-center bg-slate-900/75 p-2"
+    >
+      <div
+        class="flex h-fit max-h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden 
+               rounded-xl bg-slate-200 px-6 py-4 lg:w-1/3"
+      >
         <div>
           <div class="flex items-center gap-2 p-2">
             <IconLayoutCards class="text-slate-500"></IconLayoutCards>
             <h1 class="h-fit w-full px-3 py-1 font-semibold">Title</h1>
             <div
-              class="-m-2 cursor-pointer rounded bg-slate-300 p-1 text-slate-500 hover:text-slate-900"
+              class="-m-2 cursor-pointer rounded bg-slate-300 p-1 text-slate-500 
+                   hover:text-slate-900"
               onClick={() => handleClose()}
             >
               <IconX></IconX>
@@ -93,8 +100,8 @@ const CardDialog = ({
           <div class="ml-[3.25rem]">
             <TextArea
               ref={contentRef}
-              styles="focus:border-slate-900 focus:bg-slate-50 bg-slate-100 border-slate-300 rounded border-2 font-semibold 
-                      px-3 py-1 text-slate-950"
+              styles="focus:border-slate-900 focus:bg-slate-50 bg-slate-100 border-slate-300 
+                      rounded border-2 font-semibold px-3 py-1 text-slate-950"
               minRows={1}
               maxRows={4}
               maxLength={100}
