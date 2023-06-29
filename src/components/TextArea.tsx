@@ -3,10 +3,18 @@ import { TargetedEvent, forwardRef, useState } from "preact/compat";
 
 const TextArea = forwardRef(function TextArea(
   {
+    styles,
+    placeholder,
     minRows,
     maxRows,
     maxLength,
-  }: { minRows: number; maxRows: number; maxLength: number },
+  }: {
+    styles?: string;
+    placeholder?: string;
+    minRows: number;
+    maxRows: number;
+    maxLength: number;
+  },
   ref: Ref<HTMLTextAreaElement>
 ) {
   const [rows, setRows] = useState<number>(minRows);
@@ -35,12 +43,12 @@ const TextArea = forwardRef(function TextArea(
 
   return (
     <textarea
-      class="height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
-             outline-none"
+      class={`height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
+             outline-none ${styles}`}
       ref={ref}
       rows={rows}
       maxLength={maxLength}
-      placeholder={"Enter a title for this card..."}
+      placeholder={placeholder}
       onChange={handleChange}
     ></textarea>
   );

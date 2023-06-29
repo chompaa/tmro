@@ -33,6 +33,7 @@ export const CardForm = ({
       >
         <TextArea
           ref={textArea}
+          placeholder="Enter a title for this card..."
           minRows={1}
           maxRows={5}
           maxLength={120}

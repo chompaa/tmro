@@ -60,6 +60,7 @@ export const Column = ({
                   class="relative px-2"
                 >
                   <List
+                    title={list.title}
                     cards={list.cards}
                     index={index}
                     removeCard={removeCard}
