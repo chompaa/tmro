@@ -6,7 +6,7 @@ import {
   DroppableProvided,
   DroppableStateSnapshot,
 } from "react-beautiful-dnd";
-import { DragType, ListItem } from "../types";
+import { DragType, ListItem, TodoItem } from "../types";
 import { Heading, List, CardForm } from ".";
 
 export const Column = ({
@@ -17,6 +17,7 @@ export const Column = ({
   changeDescription,
   addCard,
   removeCard,
+  changeTodos,
   removeList,
   placeholderProps,
 }: {
@@ -27,6 +28,7 @@ export const Column = ({
   changeDescription: (cardIndex: number, description: string) => void;
   addCard: (content: string) => void;
   removeCard: (cardIndex: number) => void;
+  changeTodos: (cardIndex: number, todos: TodoItem[]) => void;
   removeList: () => void;
   placeholderProps: {
     clientX?: number;
@@ -68,6 +70,7 @@ export const Column = ({
                     changeContent={changeContent}
                     changeDescription={changeDescription}
                     removeCard={removeCard}
+                    changeTodos={changeTodos}
                   ></List>
                   {provided.placeholder}
                   {snapshot.isDraggingOver && (

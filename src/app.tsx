@@ -8,7 +8,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { Bar, ListForm, Column } from "./components";
-import { ListItem, CardItem, DragType } from "./types";
+import { ListItem, CardItem, DragType, TodoItem } from "./types";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, child } from "firebase/database";
 import {
@@ -121,6 +121,16 @@ export function App() {
   const removeCard = (listIndex: number, cardIndex: number) => {
     const updatedLists = [...lists];
     updatedLists[listIndex].cards.splice(cardIndex, 1);
+    updateLists(updatedLists);
+  };
+
+  const changeTodos = (
+    listIndex: number,
+    cardIndex: number,
+    todos: TodoItem[]
+  ) => {
+    const updatedLists = [...lists];
+    updatedLists[listIndex].cards[cardIndex].todos = todos;
     updateLists(updatedLists);
   };
 
@@ -352,6 +362,9 @@ export function App() {
                     addCard={(content: string) => addCard(index, content)}
                     removeCard={(cardIndex: number) =>
                       removeCard(index, cardIndex)
+                    }
+                    changeTodos={(cardIndex: number, todos: TodoItem[]) =>
+                      changeTodos(index, cardIndex, todos)
                     }
                     removeList={() => removeList(index)}
                     placeholderProps={placeholderProps}
