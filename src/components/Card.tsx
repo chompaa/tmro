@@ -4,8 +4,8 @@ import {
   DraggableProvided,
 } from "react-beautiful-dnd";
 import { DragAnimation } from ".";
-import { useState, CSSProperties, createPortal } from "preact/compat";
-import { IconTrash } from "@tabler/icons-preact";
+import { useState, CSSProperties } from "preact/compat";
+import { IconAlignJustified, IconTrash } from "@tabler/icons-preact";
 import { IconButton } from ".";
 import CardDialog from "./CardDialog";
 
@@ -48,7 +48,7 @@ export const Card = ({
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
                 onClick={() => setEditing(true)}
-                class={`min-h-10 relative mb-2 flex resize-none content-center items-center break-all 
+                class={`min-h-10 relative mb-2 flex flex-col break-all 
                       rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 
                       ${snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"}`}
               >
@@ -61,24 +61,26 @@ export const Card = ({
                     ></IconButton>
                   </div>
                 )}
+                <div class="mt-1 text-slate-500 empty:mt-0">
+                  {description && (
+                    <IconAlignJustified size={16}></IconAlignJustified>
+                  )}
+                </div>
               </div>
             )}
           </DragAnimation>
         )}
       </Draggable>
-      {editing &&
-        createPortal(
-          <CardDialog
-            active={editing}
-            setActive={setEditing}
-            listTitle={listTitle}
-            content={content}
-            description={description}
-            changeContent={changeContent}
-            changeDescription={changeDescription}
-          />,
-          document.body
-        )}
+      {editing && (
+        <CardDialog
+          setActive={setEditing}
+          listTitle={listTitle}
+          content={content}
+          description={description}
+          changeContent={changeContent}
+          changeDescription={changeDescription}
+        />
+      )}
     </>
   );
 };

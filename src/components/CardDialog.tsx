@@ -5,10 +5,10 @@ import {
   IconX,
 } from "@tabler/icons-preact";
 import TextArea from "./TextArea";
-import { useEffect, useRef } from "preact/hooks";
+import { useRef } from "preact/hooks";
+import { createPortal } from "preact/compat";
 
 const CardDialog = ({
-  active,
   setActive,
   listTitle,
   description,
@@ -16,7 +16,6 @@ const CardDialog = ({
   changeContent,
   changeDescription,
 }: {
-  active: boolean;
   setActive: (active: boolean) => void;
   listTitle: string;
   content: string;
@@ -38,7 +37,7 @@ const CardDialog = ({
     changeDescription(descriptionRef.current.value);
   };
 
-  return (
+  return createPortal(
     <div class="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-slate-900/75">
       <div class="m-2 flex w-full flex-col gap-4 rounded-xl bg-slate-200 px-6 py-4 lg:w-1/3">
         <div>
@@ -104,7 +103,8 @@ const CardDialog = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
