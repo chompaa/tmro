@@ -82,7 +82,7 @@ const CardDialog = ({
   return createPortal(
     <div
       class="max-w-screen fixed left-0 top-0 flex h-dynamic max-h-dynamic w-screen content-center 
-             justify-center bg-slate-900/75 p-2"
+             justify-center bg-slate-900/75 p-2 lg:py-16"
     >
       <div
         class="flex h-fit max-h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden 

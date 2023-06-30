@@ -95,9 +95,7 @@ export function App() {
   };
 
   const addList = (title: string) => {
-    const updatedLists = [...lists];
-    updatedLists.push({ title, cards: [] });
-    updateLists(updatedLists);
+    updateLists([...lists, { title, cards: [] }]);
   };
 
   const removeList = (index: number) => {
@@ -339,6 +337,8 @@ export function App() {
       get(child(ref(db), `users/${user.uid}`)).then((snapshot) => {
         if (snapshot.exists()) {
           setLists(snapshot.val().lists);
+        } else {
+          updateLists([]);
         }
       });
     });
