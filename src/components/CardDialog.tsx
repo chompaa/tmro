@@ -2,6 +2,7 @@ import {
   IconAlignJustified,
   IconCheckbox,
   IconLayoutCards,
+  IconPlus,
   IconX,
 } from "@tabler/icons-preact";
 import TextArea from "./TextArea";
@@ -19,6 +20,7 @@ const CardDialog = ({
   changeContent,
   changeDescription,
   changeTodos,
+  removeCard,
 }: {
   setActive: (active: boolean) => void;
   listTitle: string;
@@ -28,6 +30,7 @@ const CardDialog = ({
   changeContent: (content: string) => void;
   changeDescription: (description: string) => void;
   changeTodos: (todos: TodoItem[]) => void;
+  removeCard: () => void;
 }) => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -171,15 +174,22 @@ const CardDialog = ({
               ></TodoForm>
             ) : (
               <button
-                class="rounded-md bg-slate-900 px-2 py-1 text-slate-50 
-                       hover:bg-slate-950"
+                class="flex items-center gap-2 rounded-md bg-slate-900 px-2 
+                       py-1 text-slate-50 hover:bg-slate-950"
                 onClick={() => setTodoFormActive(true)}
               >
-                Add an item
+                <IconPlus size={18}></IconPlus> Add an item
               </button>
             )}
           </div>
         </div>
+        <button
+          class="mb-1 flex w-full items-center justify-center rounded-md bg-slate-300 p-1 
+                 font-semibold text-slate-500 hover:text-slate-900"
+          onClick={() => removeCard()}
+        >
+          Archive this card
+        </button>
       </div>
     </div>,
     document.body

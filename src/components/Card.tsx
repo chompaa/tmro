@@ -8,6 +8,7 @@ import { useState, CSSProperties } from "preact/compat";
 import {
   IconAlignJustified,
   IconCheckbox,
+  IconEdit,
   IconTrash,
 } from "@tabler/icons-preact";
 import { IconButton } from ".";
@@ -65,8 +66,8 @@ export const Card = ({
                 {hover && (
                   <div class="absolute right-0 top-0 m-[0.1875rem] rounded bg-slate-200">
                     <IconButton
-                      clickHandler={() => removeCard()}
-                      icon={<IconTrash></IconTrash>}
+                      clickHandler={() => setEditing(true)}
+                      icon={<IconEdit></IconEdit>}
                     ></IconButton>
                   </div>
                 )}
@@ -99,6 +100,7 @@ export const Card = ({
           changeContent={changeContent}
           changeDescription={changeDescription}
           changeTodos={changeTodos}
+          removeCard={removeCard}
         />
       )}
     </>
