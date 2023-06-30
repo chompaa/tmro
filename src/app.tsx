@@ -268,7 +268,8 @@ export function App() {
 
     let updatedArray;
 
-    if (draggedDOM.parentNode === droppedDom) {
+    // are we dragging within the same list?
+    if (draggedDOM.parentElement === droppedDom) {
       updatedArray = [
         ...childrenArray.slice(0, destinationIndex),
         movedItem,

@@ -57,6 +57,7 @@ const TextArea = forwardRef(function TextArea(
              outline-none ${styles}`}
       ref={ref}
       rows={rows}
+      spellCheck={false}
       maxLength={maxLength}
       placeholder={placeholder}
       onChange={handleChange}
