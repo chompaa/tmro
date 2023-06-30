@@ -21,6 +21,7 @@ import { defaultData } from "./data";
 
 export function App() {
   const queryAttr = "data-rbd-drag-handle-draggable-id";
+  const destinationQuertAttr = "data-rbd-droppable-id";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDCI-G8rde1guG1vIVhBzb9p1e8jzSP3a4",
@@ -262,11 +263,24 @@ export function App() {
     const movedItem = childrenArray[sourceIndex];
     childrenArray.splice(sourceIndex, 1);
 
-    const updatedArray = [
-      ...childrenArray.slice(0, destinationIndex),
-      movedItem,
-      ...childrenArray.slice(destinationIndex + 1),
-    ];
+    const droppedDom = getDestinationDom(event.destination.droppableId);
+    const destinationChildrenArray = [...droppedDom!.children];
+
+    let updatedArray;
+
+    if (draggedDOM.parentNode === droppedDom) {
+      updatedArray = [
+        ...childrenArray.slice(0, destinationIndex),
+        movedItem,
+        ...childrenArray.slice(destinationIndex + 1),
+      ];
+    } else {
+      updatedArray = [
+        ...destinationChildrenArray.slice(0, destinationIndex),
+        movedItem,
+        ...destinationChildrenArray.slice(destinationIndex + 1),
+      ];
+    }
 
     const clientY =
       parseFloat(parentStyle.paddingTop) +
@@ -287,6 +301,11 @@ export function App() {
 
   const getDraggedDom = (draggableId: string) => {
     const domQuery = `[${queryAttr}='${draggableId}']`;
+    return document.querySelector(domQuery);
+  };
+
+  const getDestinationDom = (dropabbleId: string) => {
+    const domQuery = `[${destinationQuertAttr}='${dropabbleId}']`;
     return document.querySelector(domQuery);
   };
 
