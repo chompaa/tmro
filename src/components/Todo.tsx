@@ -25,6 +25,8 @@ const Todo = ({
       class="relative flex w-full items-center gap-2 rounded p-1 hover:bg-slate-300"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onTouchStart={() => setHover(true)}
+      onTouchEnd={() => setHover(false)}
     >
       <div class="relative m-1 h-5 w-5 shrink-0 self-start">
         <input
