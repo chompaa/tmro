@@ -2,7 +2,14 @@
 export default {
   content: ["./src/**/*.{ts,tsx}", "./index.html"],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        dynamic: ["100dvh"],
+      },
+      maxHeight: {
+        dynamic: ["100dvh"],
+      },
+    },
   },
   plugins: [],
 };

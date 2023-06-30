@@ -78,7 +78,7 @@ const CardDialog = ({
 
   return createPortal(
     <div
-      class="max-w-screen fixed left-0 top-0 flex h-screen max-h-screen w-screen content-center 
+      class="max-w-screen fixed left-0 top-0 flex h-dynamic max-h-dynamic w-screen content-center 
              justify-center bg-slate-900/75 p-2"
     >
       <div
