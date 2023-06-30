@@ -9,7 +9,6 @@ import {
   IconAlignJustified,
   IconCheckbox,
   IconEdit,
-  IconTrash,
 } from "@tabler/icons-preact";
 import { IconButton } from ".";
 import CardDialog from "./CardDialog";
