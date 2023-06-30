@@ -1,13 +1,17 @@
 import { IconBrandGithub, IconBrandGithubFilled } from "@tabler/icons-preact";
+import { ListItem } from "../types";
+import { defaultData } from "../data";
 
 export const Bar = ({
   user,
   signIn,
   signOut,
+  updateLists,
 }: {
   user: string | undefined;
   signIn: () => void;
   signOut: () => void;
+  updateLists: (updatedLists: ListItem[]) => void;
 }) => {
   return (
     <div
@@ -38,13 +42,22 @@ export const Bar = ({
             Sign out
           </button>
         ) : (
-          <button
-            class="whitespace-nowrap rounded-md border-2 border-slate-50 px-2 py-1 hover:bg-slate-50 
+          <>
+            <button
+              class="whitespace-nowrap rounded-md border-2 border-slate-50 px-2 py-1 hover:bg-slate-50 
 					       hover:text-slate-900"
-            onClick={() => signIn()}
-          >
-            Sign in
-          </button>
+              onClick={() => signIn()}
+            >
+              Sign in
+            </button>
+            <button
+              class="whitespace-nowrap rounded-md border-2 border-slate-50 px-2 py-1 hover:bg-slate-50 
+					       hover:text-slate-900"
+              onClick={() => updateLists(defaultData)}
+            >
+              Demo
+            </button>
+          </>
         )}
       </div>
     </div>

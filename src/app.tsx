@@ -17,7 +17,6 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { defaultData } from "./data";
 
 export function App() {
   const queryAttr = "data-rbd-drag-handle-draggable-id";
@@ -340,8 +339,6 @@ export function App() {
       get(child(ref(db), `users/${user.uid}`)).then((snapshot) => {
         if (snapshot.exists()) {
           setLists(snapshot.val().lists);
-        } else {
-          updateLists(defaultData);
         }
       });
     });
@@ -349,7 +346,12 @@ export function App() {
 
   return (
     <div>
-      <Bar signIn={signInUser} signOut={signOutUser} user={user}></Bar>
+      <Bar
+        signIn={signInUser}
+        signOut={signOutUser}
+        user={user}
+        updateLists={updateLists}
+      ></Bar>
       <div class="mx-4 flex select-none items-start text-slate-950">
         <DragDropContext
           onDragStart={handleDragStart}
