@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
+import { ListItem } from "./types";
 
-export const defaultData = [
+export const defaultData: ListItem[] = [
   {
     title: "to do",
     cards: [
@@ -15,6 +16,20 @@ export const defaultData = [
       {
         id: uuidv4(),
         content: "add sounds",
+        todos: [
+          {
+            content: "victory.wav",
+            completed: true,
+          },
+          {
+            content: "game_over.wav",
+            completed: false,
+          },
+          {
+            content: "soundtrack.wav",
+            completed: false,
+          },
+        ],
       },
     ],
   },
@@ -24,6 +39,13 @@ export const defaultData = [
       {
         id: uuidv4(),
         content: "write story",
+        description: "need to outline the story and write the script",
+        todos: [
+          {
+            content: "ask friends for feedback",
+            completed: false,
+          },
+        ],
       },
       {
         id: uuidv4(),
