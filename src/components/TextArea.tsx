@@ -1,10 +1,16 @@
 import { Ref } from "preact";
-import { TargetedEvent, forwardRef, useState } from "preact/compat";
+import {
+  TargetedEvent,
+  forwardRef,
+  useLayoutEffect,
+  useState,
+} from "preact/compat";
 
 const TextArea = forwardRef(function TextArea(
   {
     children,
     styles,
+    active = true,
     placeholder,
     defaultValue,
     onKeyDown,
@@ -16,6 +22,7 @@ const TextArea = forwardRef(function TextArea(
   }: {
     children?: string;
     styles?: string;
+    active?: boolean;
     placeholder?: string;
     defaultValue?: string;
     onKeyDown?: (e: KeyboardEvent) => void;
@@ -52,22 +59,28 @@ const TextArea = forwardRef(function TextArea(
   };
 
   return (
-    <textarea
-      class={`height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
+    <>
+      {active ? (
+        <textarea
+          class={`height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
              outline-none ${styles}`}
-      ref={ref}
-      rows={rows}
-      spellCheck={false}
-      maxLength={maxLength}
-      placeholder={placeholder}
-      onChange={handleChange}
-      defaultValue={defaultValue}
-      onKeyDown={onKeyDown}
-      onBlur={onBlur}
-      onBlurCapture={onBlurCapture}
-    >
-      {children}
-    </textarea>
+          ref={ref}
+          rows={rows}
+          spellCheck={false}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          onChange={handleChange}
+          defaultValue={defaultValue}
+          onKeyDown={onKeyDown}
+          onBlur={onBlur}
+          onBlurCapture={onBlurCapture}
+        >
+          {children}
+        </textarea>
+      ) : (
+        <div>{children}</div>
+      )}
+    </>
   );
 });
 

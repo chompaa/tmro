@@ -9,7 +9,7 @@ import TextArea from "./TextArea";
 import { createPortal, useRef, useState } from "preact/compat";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
-import { TodoItem } from "../types";
+import { CardState, TodoItem } from "../types";
 
 const CardDialog = ({
   setActive,
@@ -22,7 +22,7 @@ const CardDialog = ({
   changeTodos,
   removeCard,
 }: {
-  setActive: (active: boolean) => void;
+  setActive: (state: CardState) => void;
   listTitle: string;
   content: string;
   description?: string;
@@ -38,8 +38,10 @@ const CardDialog = ({
   const [todoFormActive, setTodoFormActive] = useState<boolean>(false);
   const [formTodos, setFormTodos] = useState<TodoItem[]>(todos ?? []);
 
+  const { normal } = CardState;
+
   const handleClose = () => {
-    setActive(false);
+    setActive(normal);
 
     if (!contentRef.current || !descriptionRef.current) {
       return;

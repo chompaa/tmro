@@ -19,3 +19,9 @@ export enum DragType {
   Card = "card",
   List = "list",
 }
+
+export enum CardState {
+  normal,
+  editing,
+  dialog,
+}

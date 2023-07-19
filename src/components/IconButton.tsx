@@ -1,4 +1,5 @@
 import { cloneElement } from "preact";
+import { TargetedEvent } from "preact/compat";
 
 export const IconButton = ({
   clickHandler,
@@ -13,7 +14,10 @@ export const IconButton = ({
     <>
       {!disabled && (
         <button
-          onClick={() => clickHandler()}
+          onClick={(e: TargetedEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+            clickHandler();
+          }}
           class="flex content-center items-center justify-center rounded p-2 text-slate-500 
            hover:bg-slate-300"
         >
