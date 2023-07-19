@@ -1,5 +1,11 @@
 import { Ref } from "preact";
-import { TargetedEvent, forwardRef, useState } from "preact/compat";
+import {
+  TargetedEvent,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from "preact/compat";
 
 const TextArea = forwardRef(function TextArea(
   {
@@ -31,8 +37,14 @@ const TextArea = forwardRef(function TextArea(
 ) {
   const [rows, setRows] = useState<number>(minRows);
 
-  const handleChange = (e: TargetedEvent<HTMLTextAreaElement>) => {
-    const textArea = e.target as HTMLTextAreaElement;
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const handleChange = () => {
+    const textArea = textAreaRef.current;
+
+    if (!textArea) {
+      return;
+    }
 
     const { lineHeight } = window.getComputedStyle(textArea);
 
@@ -53,28 +65,37 @@ const TextArea = forwardRef(function TextArea(
     setRows(currentRows < maxRows ? currentRows : maxRows);
   };
 
+  useEffect(() => {
+    handleChange();
+  }, []);
+
   return (
     <>
-      {active ? (
-        <textarea
-          class={`height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
+      <textarea
+        class={`height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
              outline-none ${styles}`}
-          ref={ref}
-          rows={rows}
-          spellCheck={false}
-          maxLength={maxLength}
-          placeholder={placeholder}
-          onChange={handleChange}
-          defaultValue={defaultValue}
-          onKeyDown={onKeyDown}
-          onBlur={onBlur}
-          onBlurCapture={onBlurCapture}
-        >
-          {children}
-        </textarea>
-      ) : (
-        <div>{children}</div>
-      )}
+        ref={(node) => {
+          textAreaRef.current = node;
+
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+        }}
+        rows={rows}
+        spellCheck={false}
+        maxLength={maxLength}
+        placeholder={placeholder}
+        onChange={handleChange}
+        defaultValue={defaultValue}
+        onKeyDown={onKeyDown}
+        onBlur={onBlur}
+        onBlurCapture={onBlurCapture}
+        disabled={!active}
+      >
+        {children}
+      </textarea>
     </>
   );
 });
