@@ -1,10 +1,5 @@
 import { Ref } from "preact";
-import {
-  TargetedEvent,
-  forwardRef,
-  useLayoutEffect,
-  useState,
-} from "preact/compat";
+import { TargetedEvent, forwardRef, useState } from "preact/compat";
 
 const TextArea = forwardRef(function TextArea(
   {

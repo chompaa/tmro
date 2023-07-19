@@ -3,14 +3,8 @@ import {
   DraggableStateSnapshot,
   DraggableProvided,
 } from "react-beautiful-dnd";
-import { CardForm, DragAnimation } from ".";
-import {
-  useState,
-  CSSProperties,
-  TargetedEvent,
-  useEffect,
-  useRef,
-} from "preact/compat";
+import { DragAnimation } from ".";
+import { useState, CSSProperties, useEffect, useRef } from "preact/compat";
 import {
   IconAlignJustified,
   IconCheckbox,
