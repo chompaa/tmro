@@ -83,7 +83,7 @@ export const Card = ({
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
                 onClick={() => setCardState(editing)}
-                class={`min-h-10 relative z-10 mb-2 flex flex-col
+                class={`min-h-10 relative mb-2 flex flex-col
                       break-all rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] 
                       shadow-slate-300 ${
                         snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"
