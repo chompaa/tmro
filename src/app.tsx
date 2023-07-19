@@ -45,7 +45,7 @@ export function App() {
     clientX?: number;
     clientY?: number;
     clientWidth?: number;
-    clientHeight?: number;
+    offsetHeight?: number;
   }>({});
 
   const updateLists = (updatedLists: ListItem[]) => {
@@ -122,6 +122,12 @@ export function App() {
     updateLists(updatedLists);
   };
 
+  const changeColor = (listIndex: number, cardIndex: number, color: string) => {
+    const updatedLists = [...lists];
+    updatedLists[listIndex].cards[cardIndex].color = color;
+    updateLists(updatedLists);
+  };
+
   const changeTodos = (
     listIndex: number,
     cardIndex: number,
@@ -158,6 +164,23 @@ export function App() {
     updateLists(updatedLists);
   };
 
+  const getClientY = (
+    style: CSSStyleDeclaration,
+    children: Element[],
+    sourceIndex: number
+  ) => {
+    return (
+      parseFloat(style.paddingTop) +
+      children.slice(0, sourceIndex).reduce((total, curr) => {
+        const currStyle = window.getComputedStyle(curr);
+        const marginBottom = parseFloat(currStyle.marginBottom);
+        const borderWidth = parseFloat(currStyle.borderTopWidth);
+
+        return total + curr.clientHeight + marginBottom + borderWidth;
+      }, 0)
+    );
+  };
+
   const handleDragStart = (event: any) => {
     const draggedDOM = getDraggedDom(event.draggableId);
 
@@ -165,7 +188,7 @@ export function App() {
       return;
     }
 
-    const { clientHeight, clientWidth } = draggedDOM;
+    const { offsetHeight, clientWidth } = draggedDOM;
     const sourceIndex = event.source.index;
     const parent = draggedDOM.parentElement;
     const parentStyle = window.getComputedStyle(parent as Element);
@@ -174,20 +197,11 @@ export function App() {
       return;
     }
 
-    const clientY =
-      parseFloat(parentStyle.paddingTop) +
-      [...parent.children].slice(0, sourceIndex).reduce((total, curr) => {
-        const marginBottom = parseFloat(
-          window.getComputedStyle(curr).marginBottom
-        );
-        return total + curr.clientHeight + marginBottom;
-      }, 0);
-
     setPlaceholderProps({
       clientX: parseFloat(parentStyle.paddingLeft),
-      clientY,
+      clientY: getClientY(parentStyle, [...parent.children], sourceIndex),
       clientWidth,
-      clientHeight,
+      offsetHeight,
     });
   };
 
@@ -252,7 +266,7 @@ export function App() {
 
     const parentStyle = window.getComputedStyle(parent as Element);
 
-    const { clientHeight, clientWidth } = draggedDOM;
+    const { offsetHeight, clientWidth } = draggedDOM;
     const destinationIndex = event.destination.index;
     const sourceIndex = event.source.index;
 
@@ -280,31 +294,22 @@ export function App() {
       ];
     }
 
-    const clientY =
-      parseFloat(parentStyle.paddingTop) +
-      updatedArray.slice(0, destinationIndex).reduce((total, curr) => {
-        const marginBottom = parseFloat(
-          window.getComputedStyle(curr).marginBottom
-        );
-        return total + curr.clientHeight + marginBottom;
-      }, 0);
-
     setPlaceholderProps({
       clientX: parseFloat(parentStyle.paddingLeft),
-      clientY,
+      clientY: getClientY(parentStyle, updatedArray, destinationIndex),
       clientWidth,
-      clientHeight,
+      offsetHeight,
     });
   };
 
   const getDraggedDom = (draggableId: string) => {
     const domQuery = `[${queryAttr}='${draggableId}']`;
-    return document.querySelector(domQuery);
+    return document.querySelector<HTMLElement>(domQuery);
   };
 
   const getDestinationDom = (dropabbleId: string) => {
     const domQuery = `[${destinationQuertAttr}='${dropabbleId}']`;
-    return document.querySelector(domQuery);
+    return document.querySelector<HTMLElement>(domQuery);
   };
 
   const signInUser = () => {
@@ -387,6 +392,9 @@ export function App() {
                     }
                     changeTodos={(cardIndex: number, todos: TodoItem[]) =>
                       changeTodos(index, cardIndex, todos)
+                    }
+                    changeColor={(cardIndex: number, color: string) =>
+                      changeColor(index, cardIndex, color)
                     }
                     removeList={() => removeList(index)}
                     placeholderProps={placeholderProps}

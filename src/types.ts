@@ -3,6 +3,7 @@ export interface CardItem {
   content: string;
   description?: string;
   todos?: TodoItem[];
+  color?: string;
 }
 
 export interface ListItem {
@@ -25,3 +26,13 @@ export enum CardState {
   editing,
   dialog,
 }
+
+export const CardColors = {
+  red: "#f87462",
+  orange: "#faa53d",
+  yellow: "#e2b203",
+  green: "#4bce97",
+  blue: "#579dff",
+  purple: "#9f8fef",
+  pink: "#e774bb",
+};

@@ -2,14 +2,15 @@ import {
   IconAlignJustified,
   IconCheckbox,
   IconLayoutCards,
+  IconPalette,
   IconPlus,
   IconX,
 } from "@tabler/icons-preact";
 import TextArea from "./TextArea";
-import { createPortal, useRef, useState } from "preact/compat";
+import { TargetedEvent, createPortal, useRef, useState } from "preact/compat";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
-import { CardState, TodoItem } from "../types";
+import { CardColors, CardState, TodoItem } from "../types";
 
 const CardDialog = ({
   setActive,
@@ -17,9 +18,11 @@ const CardDialog = ({
   content,
   description,
   todos,
+  color,
   changeContent,
   changeDescription,
   changeTodos,
+  changeColor,
   removeCard,
 }: {
   setActive: (state: CardState) => void;
@@ -27,9 +30,11 @@ const CardDialog = ({
   content: string;
   description?: string;
   todos?: TodoItem[];
+  color?: string;
   changeContent: (content: string) => void;
   changeDescription: (description: string) => void;
   changeTodos: (todos: TodoItem[]) => void;
+  changeColor: (color: string) => void;
   removeCard: () => void;
 }) => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -83,12 +88,17 @@ const CardDialog = ({
 
   return createPortal(
     <div
-      class="max-w-screen fixed left-0 top-0 flex h-dynamic max-h-dynamic w-screen content-center 
-             justify-center bg-slate-900/75 p-2 lg:py-16"
+      class="max-w-screen fixed left-0 top-0 flex h-dynamic max-h-dynamic w-screen cursor-pointer 
+             content-center justify-center bg-slate-900/75 p-2 lg:py-16"
+      onClick={handleClose}
     >
       <div
-        class="flex h-fit max-h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden 
-               rounded-xl bg-slate-200 px-6 py-4 lg:w-1/3"
+        class={`flex h-fit max-h-full w-full cursor-default flex-col gap-4 overflow-y-auto 
+               overflow-x-hidden rounded-xl bg-slate-200 px-6 py-4 lg:max-w-2xl ${
+                 color && "border-t-[3rem]"
+               }`}
+        style={{ borderColor: color }}
+        onClick={(e: TargetedEvent<HTMLElement>) => e.stopPropagation()}
       >
         <div>
           <div class="flex items-center gap-2 p-2">
@@ -183,6 +193,38 @@ const CardDialog = ({
                 <IconPlus size={18}></IconPlus> Add an item
               </button>
             )}
+          </div>
+        </div>
+        <div class="mb-4">
+          <div class="flex items-center gap-2 p-2">
+            <IconPalette class="text-slate-500"></IconPalette>
+            <h1 class="h-fit px-3 py-1 font-semibold">Color</h1>
+          </div>
+          <div class="ml-[3.25rem] flex gap-1">
+            {Object.values(CardColors).map(
+              (buttonColor: string, index: number) => (
+                <button
+                  key={index}
+                  class={`h-8 w-8 rounded-md border-2 ${
+                    buttonColor === color
+                      ? "border-slate-900"
+                      : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: buttonColor }}
+                  onClick={() => changeColor(buttonColor)}
+                ></button>
+              )
+            )}
+            <button
+              class={`flex content-center justify-center rounded-md border-2 border-slate-300 
+              bg-slate-300 p-[0.125rem] text-slate-600 hover:border-slate-900 
+              hover:text-slate-900 ${
+                !color && "border-slate-900 text-slate-900"
+              }`}
+              onClick={() => changeColor("")}
+            >
+              <IconX></IconX>
+            </button>
           </div>
         </div>
         <button

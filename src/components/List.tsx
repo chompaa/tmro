@@ -8,6 +8,7 @@ export const List = ({
   changeContent,
   changeDescription,
   changeTodos,
+  changeColor,
   removeCard,
 }: {
   title: string;
@@ -15,6 +16,7 @@ export const List = ({
   changeContent: (index: number, content: string) => void;
   changeDescription: (index: number, description: string) => void;
   changeTodos: (cardIndex: number, todos: TodoItem[]) => void;
+  changeColor: (cardIndex: number, color: string) => void;
   removeCard: (cardIndex: number) => void;
 }) => {
   return (
@@ -28,11 +30,13 @@ export const List = ({
           content={card.content}
           description={card.description}
           todos={card.todos}
+          color={card.color}
           changeContent={(content: string) => changeContent(idx, content)}
           changeDescription={(description: string) =>
             changeDescription(idx, description)
           }
           changeTodos={(todos: TodoItem[]) => changeTodos(idx, todos)}
+          changeColor={(color: string) => changeColor(idx, color)}
           removeCard={() => removeCard(idx)}
         ></Card>
       ))}

@@ -23,10 +23,12 @@ export const Card = ({
   content,
   description,
   todos,
+  color,
   changeContent,
   changeDescription,
   removeCard,
   changeTodos,
+  changeColor,
 }: {
   id: string;
   listTitle: string;
@@ -34,10 +36,12 @@ export const Card = ({
   content: string;
   description?: string;
   todos?: TodoItem[];
+  color?: string;
   changeContent: (content: string) => void;
   changeDescription: (description: string) => void;
   removeCard: () => void;
   changeTodos: (todos: TodoItem[]) => void;
+  changeColor: (color: string) => void;
 }) => {
   const [hover, setHover] = useState<boolean>(false);
 
@@ -51,11 +55,17 @@ export const Card = ({
       textArea.current.focus();
       textArea.current.selectionStart = textArea.current.value.length;
     }
+
+    setHover(false);
   }, [cardState]);
 
   return (
     <>
-      <Draggable draggableId={id} index={index}>
+      <Draggable
+        draggableId={id}
+        index={index}
+        isDragDisabled={cardState === editing}
+      >
         {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
           <DragAnimation
             style={provided.draggableProps.style}
@@ -66,13 +76,20 @@ export const Card = ({
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
-                style={{ ...style, zIndex: cardState === editing ? 10 : 0 }}
+                style={{
+                  ...style,
+                  borderColor: color,
+                }}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
                 onClick={() => setCardState(editing)}
-                class={`min-h-10 relative mb-2 flex flex-col break-all
-                      rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] shadow-slate-300 
-                      ${snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"}`}
+                class={`min-h-10 relative z-10 mb-2 flex flex-col
+                      break-all rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] 
+                      shadow-slate-300 ${
+                        snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"
+                      } ${color && "border-t-[12px]"} ${
+                  cardState === editing || snapshot.isDragging ? "z-10" : "z-0"
+                }`}
               >
                 <TextArea
                   ref={textArea}
@@ -126,9 +143,11 @@ export const Card = ({
           content={content}
           description={description}
           todos={todos}
+          color={color}
           changeContent={changeContent}
           changeDescription={changeDescription}
           changeTodos={changeTodos}
+          changeColor={changeColor}
           removeCard={removeCard}
         />
       )}

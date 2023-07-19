@@ -18,6 +18,7 @@ export const Column = ({
   addCard,
   removeCard,
   changeTodos,
+  changeColor,
   removeList,
   placeholderProps,
 }: {
@@ -29,12 +30,13 @@ export const Column = ({
   addCard: (content: string) => void;
   removeCard: (cardIndex: number) => void;
   changeTodos: (cardIndex: number, todos: TodoItem[]) => void;
+  changeColor: (cardIndex: number, color: string) => void;
   removeList: () => void;
   placeholderProps: {
     clientX?: number;
     clientY?: number;
     clientWidth?: number;
-    clientHeight?: number;
+    offsetHeight?: number;
   };
 }) => {
   return (
@@ -71,6 +73,7 @@ export const Column = ({
                     changeDescription={changeDescription}
                     removeCard={removeCard}
                     changeTodos={changeTodos}
+                    changeColor={changeColor}
                   ></List>
                   {provided.placeholder}
                   {snapshot.isDraggingOver && (
@@ -79,8 +82,8 @@ export const Column = ({
                       style={{
                         top: placeholderProps.clientY,
                         left: placeholderProps.clientX,
-                        height: placeholderProps.clientHeight,
                         width: placeholderProps.clientWidth,
+                        height: placeholderProps.offsetHeight,
                       }}
                     ></div>
                   )}

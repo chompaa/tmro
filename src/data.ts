@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { ListItem } from "./types";
+import { CardColors, ListItem } from "./types";
 
 export const defaultData: ListItem[] = [
   {
@@ -30,6 +30,7 @@ export const defaultData: ListItem[] = [
             completed: false,
           },
         ],
+        color: CardColors.purple,
       },
     ],
   },
@@ -46,10 +47,12 @@ export const defaultData: ListItem[] = [
             completed: false,
           },
         ],
+        color: CardColors.red,
       },
       {
         id: uuidv4(),
         content: "add levels",
+        color: CardColors.red,
       },
       {
         id: uuidv4(),
