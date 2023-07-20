@@ -97,9 +97,8 @@ export const Card = ({
                     {content}
                   </TextArea>
                   <div
-                    class={`visible absolute left-0 top-0 h-full w-full bg-transparent ${
-                      cardState === editing && "hidden"
-                    }`}
+                    class={`visible absolute left-0 top-0 h-full w-full cursor-text bg-transparent
+                    ${cardState === editing && "hidden"}`}
                     onClick={() => setCardState(editing)}
                   ></div>
                 </div>

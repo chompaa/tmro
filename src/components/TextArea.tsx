@@ -55,7 +55,7 @@ export const TextArea = forwardRef(function TextArea(
     <>
       <textarea
         class={`height-auto box-border w-full resize-none overflow-hidden bg-inherit leading-6 
-             outline-none ${styles}`}
+             outline-none disabled:text-current ${styles}`}
         ref={(node) => {
           textAreaRef.current = node;
 
