@@ -1,37 +1,19 @@
 import { Ref } from "preact";
-import {
-  TargetedEvent,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from "preact/compat";
+import { forwardRef, useEffect, useRef, useState } from "preact/compat";
 
-const TextArea = forwardRef(function TextArea(
+export const TextArea = forwardRef(function TextArea(
   {
     children,
     styles,
-    active = true,
-    placeholder,
-    defaultValue,
-    onKeyDown,
-    onBlur,
-    onBlurCapture,
-    minRows,
-    maxRows,
-    maxLength,
+    minRows = 1,
+    maxRows = 5,
+    ...props
   }: {
     children?: string;
     styles?: string;
-    active?: boolean;
-    placeholder?: string;
-    defaultValue?: string;
-    onKeyDown?: (e: KeyboardEvent) => void;
-    onBlur?: (e: TargetedEvent<HTMLTextAreaElement>) => void;
-    onBlurCapture?: (e: TargetedEvent<HTMLTextAreaElement>) => void;
     minRows: number;
     maxRows: number;
-    maxLength: number;
+    [x: string]: any;
   },
   ref: Ref<HTMLTextAreaElement>
 ) {
@@ -85,19 +67,11 @@ const TextArea = forwardRef(function TextArea(
         }}
         rows={rows}
         spellCheck={false}
-        maxLength={maxLength}
-        placeholder={placeholder}
         onChange={handleChange}
-        defaultValue={defaultValue}
-        onKeyDown={onKeyDown}
-        onBlur={onBlur}
-        onBlurCapture={onBlurCapture}
-        disabled={!active}
+        {...props}
       >
         {children}
       </textarea>
     </>
   );
 });
-
-export default TextArea;

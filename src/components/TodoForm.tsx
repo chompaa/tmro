@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "preact/hooks";
-import TextArea from "./TextArea";
+import { TextArea } from ".";
 import { IconX } from "@tabler/icons-preact";
 
-const TodoForm = ({
+export const TodoForm = ({
   setActive,
   addTodo,
 }: {
@@ -57,5 +57,3 @@ const TodoForm = ({
     </div>
   );
 };
-
-export default TodoForm;

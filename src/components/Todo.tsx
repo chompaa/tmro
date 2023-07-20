@@ -1,7 +1,7 @@
 import { IconCheck, IconTrash } from "@tabler/icons-preact";
 import { TargetedEvent, useState } from "preact/compat";
 
-const Todo = ({
+export const Todo = ({
   completed,
   content,
   updateTodo,
@@ -56,5 +56,3 @@ const Todo = ({
     </div>
   );
 };
-
-export default Todo;

@@ -3,7 +3,7 @@ import {
   DraggableStateSnapshot,
   DraggableProvided,
 } from "react-beautiful-dnd";
-import { DragAnimation } from ".";
+import { CardDialog, CardEdit, DragAnimation, TextArea } from ".";
 import { useState, CSSProperties, useEffect, useRef } from "preact/compat";
 import {
   IconAlignJustified,
@@ -11,10 +11,7 @@ import {
   IconEdit,
 } from "@tabler/icons-preact";
 import { IconButton } from ".";
-import CardDialog from "./CardDialog";
 import { CardState, TodoItem } from "../types";
-import CardEdit from "./CardEdit";
-import TextArea from "./TextArea";
 
 export const Card = ({
   id,
@@ -82,7 +79,6 @@ export const Card = ({
                 }}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
-                onClick={() => setCardState(editing)}
                 class={`min-h-10 relative mb-2 flex flex-col
                       break-all rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] 
                       shadow-slate-300 ${
@@ -91,16 +87,22 @@ export const Card = ({
                   cardState === editing || snapshot.isDragging ? "z-10" : "z-0"
                 }`}
               >
-                <TextArea
-                  ref={textArea}
-                  active={cardState === editing}
-                  placeholder="Enter a title for this card..."
-                  minRows={1}
-                  maxRows={5}
-                  maxLength={120}
-                >
-                  {content}
-                </TextArea>
+                <div class="relative flex">
+                  <TextArea
+                    ref={textArea}
+                    maxLength={120}
+                    disabled={cardState !== editing}
+                    placeholder="Enter a title for this card..."
+                  >
+                    {content}
+                  </TextArea>
+                  <div
+                    class={`visible absolute left-0 top-0 h-full w-full bg-transparent ${
+                      cardState === editing && "hidden"
+                    }`}
+                    onClick={() => setCardState(editing)}
+                  ></div>
+                </div>
                 {hover && cardState === normal && (
                   <div class="absolute right-0 top-0 m-[0.1875rem] rounded bg-slate-200">
                     <IconButton

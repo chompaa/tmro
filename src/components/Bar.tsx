@@ -8,7 +8,7 @@ export const Bar = ({
   signOut,
   updateLists,
 }: {
-  user: string | undefined;
+  user: string | null;
   signIn: () => void;
   signOut: () => void;
   updateLists: (updatedLists: ListItem[]) => void;

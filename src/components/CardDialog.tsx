@@ -6,13 +6,11 @@ import {
   IconPlus,
   IconX,
 } from "@tabler/icons-preact";
-import TextArea from "./TextArea";
 import { TargetedEvent, createPortal, useRef, useState } from "preact/compat";
-import TodoForm from "./TodoForm";
-import Todo from "./Todo";
+import { TextArea, Todo, TodoForm } from ".";
 import { CardColors, CardState, TodoItem } from "../types";
 
-const CardDialog = ({
+export const CardDialog = ({
   setActive,
   listTitle,
   content,
@@ -117,7 +115,6 @@ const CardDialog = ({
               ref={contentRef}
               styles="focus:border-slate-900 focus:bg-slate-50 bg-slate-100 border-slate-300 
                       rounded border-2 font-semibold px-3 py-1 text-slate-950"
-              minRows={1}
               maxRows={4}
               maxLength={100}
             >
@@ -239,5 +236,3 @@ const CardDialog = ({
     document.body
   );
 };
-
-export default CardDialog;

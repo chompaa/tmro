@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import {
   DragDropContext,
   DraggableLocation,
@@ -9,44 +9,22 @@ import {
 } from "react-beautiful-dnd";
 import { Bar, ListForm, Column } from "./components";
 import { ListItem, CardItem, DragType, TodoItem } from "./types";
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, child } from "firebase/database";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { useAuth } from "./hooks/useAuth";
+import { usePlaceholder } from "./hooks/usePlaceholder";
+import { getDestinationDom, getDraggedDom } from "./util";
 
 export function App() {
-  const queryAttr = "data-rbd-drag-handle-draggable-id";
-  const destinationQuertAttr = "data-rbd-droppable-id";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDCI-G8rde1guG1vIVhBzb9p1e8jzSP3a4",
-    authDomain: "trello-clone-b3c76.firebaseapp.com",
-    databaseURL:
-      "https://trello-clone-b3c76-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "trello-clone-b3c76",
-    storageBucket: "trello-clone-b3c76.appspot.com",
-    messagingSenderId: "712863136216",
-    appId: "1:712863136216:web:00020f5948777f3f415aad",
-  };
-
-  initializeApp(firebaseConfig);
-
-  const provider = new GoogleAuthProvider();
-
-  const [user, setUser] = useState<string | undefined>(undefined);
+  const { user, signIn, signOut } = useAuth({
+    onSignInExists: (lists: any) => setLists(lists),
+    onSignInNotExists: () => updateLists([]),
+    onSignOut: () => setLists([]),
+  });
 
   const [lists, setLists] = useState<ListItem[]>([]);
 
-  const [placeholderProps, setPlaceholderProps] = useState<{
-    clientX?: number;
-    clientY?: number;
-    clientWidth?: number;
-    offsetHeight?: number;
-  }>({});
+  const { placeholder, onDragStart, onDragEnd, onDragUpdate } =
+    usePlaceholder();
 
   const updateLists = (updatedLists: ListItem[]) => {
     setLists(updatedLists);
@@ -164,49 +142,8 @@ export function App() {
     updateLists(updatedLists);
   };
 
-  const getClientY = (
-    style: CSSStyleDeclaration,
-    children: Element[],
-    sourceIndex: number
-  ) => {
-    return (
-      parseFloat(style.paddingTop) +
-      children.slice(0, sourceIndex).reduce((total, curr) => {
-        const currStyle = window.getComputedStyle(curr);
-        const marginBottom = parseFloat(currStyle.marginBottom);
-        const borderWidth = parseFloat(currStyle.borderTopWidth);
-
-        return total + curr.clientHeight + marginBottom + borderWidth;
-      }, 0)
-    );
-  };
-
-  const handleDragStart = (event: any) => {
-    const draggedDOM = getDraggedDom(event.draggableId);
-
-    if (!draggedDOM) {
-      return;
-    }
-
-    const { offsetHeight, clientWidth } = draggedDOM;
-    const sourceIndex = event.source.index;
-    const parent = draggedDOM.parentElement;
-    const parentStyle = window.getComputedStyle(parent as Element);
-
-    if (!parent) {
-      return;
-    }
-
-    setPlaceholderProps({
-      clientX: parseFloat(parentStyle.paddingLeft),
-      clientY: getClientY(parentStyle, [...parent.children], sourceIndex),
-      clientWidth,
-      offsetHeight,
-    });
-  };
-
   const handleDragEnd = (result: DropResult) => {
-    setPlaceholderProps({});
+    onDragEnd();
 
     const { source, destination, type } = result;
 
@@ -263,10 +200,6 @@ export function App() {
     if (!parent) {
       return;
     }
-
-    const parentStyle = window.getComputedStyle(parent as Element);
-
-    const { offsetHeight, clientWidth } = draggedDOM;
     const destinationIndex = event.destination.index;
     const sourceIndex = event.source.index;
 
@@ -294,72 +227,20 @@ export function App() {
       ];
     }
 
-    setPlaceholderProps({
-      clientX: parseFloat(parentStyle.paddingLeft),
-      clientY: getClientY(parentStyle, updatedArray, destinationIndex),
-      clientWidth,
-      offsetHeight,
-    });
+    onDragUpdate(event, updatedArray);
   };
-
-  const getDraggedDom = (draggableId: string) => {
-    const domQuery = `[${queryAttr}='${draggableId}']`;
-    return document.querySelector<HTMLElement>(domQuery);
-  };
-
-  const getDestinationDom = (dropabbleId: string) => {
-    const domQuery = `[${destinationQuertAttr}='${dropabbleId}']`;
-    return document.querySelector<HTMLElement>(domQuery);
-  };
-
-  const signInUser = () => {
-    const auth = getAuth();
-
-    signInWithPopup(auth, provider);
-  };
-
-  const signOutUser = () => {
-    const auth = getAuth();
-
-    signOut(auth).then(() => {
-      setLists([]);
-      setUser(undefined);
-    });
-  };
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        return;
-      }
-
-      setUser(user.uid);
-
-      const db = getDatabase();
-
-      get(child(ref(db), `users/${user.uid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          setLists(snapshot.val().lists);
-        } else {
-          updateLists([]);
-        }
-      });
-    });
-  }, []);
 
   return (
     <div>
       <Bar
-        signIn={signInUser}
-        signOut={signOutUser}
+        signIn={signIn}
+        signOut={signOut}
         user={user}
         updateLists={updateLists}
       ></Bar>
       <div class="mx-4 flex select-none items-start text-slate-950">
         <DragDropContext
-          onDragStart={handleDragStart}
+          onDragStart={onDragStart}
           onDragEnd={handleDragEnd}
           onDragUpdate={handleDragUpdate}
         >
@@ -397,7 +278,7 @@ export function App() {
                       changeColor(index, cardIndex, color)
                     }
                     removeList={() => removeList(index)}
-                    placeholderProps={placeholderProps}
+                    placeholder={placeholder}
                   ></Column>
                 ))}
                 {provided.placeholder}

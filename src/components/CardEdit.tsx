@@ -1,13 +1,13 @@
 import { IconX } from "@tabler/icons-preact";
 import { createPortal } from "preact/compat";
 
-function CardEdit({
+export const CardEdit = ({
   close,
   changeContent,
 }: {
   close: () => void;
   changeContent: () => void;
-}) {
+}) => {
   return (
     <>
       {createPortal(
@@ -37,6 +37,4 @@ function CardEdit({
       </div>
     </>
   );
-}
-
-export default CardEdit;
+};

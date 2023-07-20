@@ -1,6 +1,6 @@
 import { useState, useRef } from "preact/hooks";
 import { IconPlus, IconX } from "@tabler/icons-preact";
-import TextArea from "./TextArea";
+import { TextArea } from ".";
 
 export const CardForm = ({
   addCard,
@@ -32,8 +32,6 @@ export const CardForm = ({
         <TextArea
           ref={textArea}
           placeholder="Enter a title for this card..."
-          minRows={1}
-          maxRows={5}
           maxLength={120}
         ></TextArea>
       </div>

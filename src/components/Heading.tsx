@@ -1,9 +1,14 @@
-import { useState, useRef, TargetedEvent, useEffect } from "preact/compat";
+import {
+  useState,
+  useRef,
+  TargetedEvent,
+  useEffect,
+  createPortal,
+} from "preact/compat";
 
 import { IconDots, IconTrash } from "@tabler/icons-preact";
-import { IconButton } from ".";
+import { IconButton, TextArea } from ".";
 import { DraggableStateSnapshot } from "react-beautiful-dnd";
-import TextArea from "./TextArea";
 
 export const Heading = ({
   title,
@@ -88,22 +93,34 @@ export const Heading = ({
           clickHandler={() => setMenuActive(!menuActive)}
         ></IconButton>
         {menuActive && !textAreaActive && (
-          <div
-            class="absolute z-10 mt-2 grid w-64 divide-y rounded-md 
+          <>
+            {createPortal(
+              <div
+                class="absolute left-0 top-0 h-full w-full"
+                onClick={() => setMenuActive(false)}
+              />,
+              document.body
+            )}
+            <div
+              class="absolute z-10 mt-2 grid w-64 divide-y rounded-md 
                     bg-slate-50 shadow-sm shadow-black/40"
-          >
-            <div class="px-4 py-3 text-center">List actions</div>
-            <div class="mx-2 py-2">
-              <button
-                class="mx-0 flex w-full items-center gap-2 rounded-md px-2 py-1 text-left 
+            >
+              <div class="px-4 py-3 text-center">List actions</div>
+              <div class="mx-2 py-2">
+                <button
+                  class="mx-0 flex w-full items-center gap-2 rounded-md px-2 py-1 text-left 
                      hover:bg-slate-300"
-                onClick={() => removeList()}
-              >
-                <IconTrash size={16}></IconTrash>
-                Archive this list
-              </button>
+                  onClick={() => {
+                    removeList();
+                    setMenuActive(false);
+                  }}
+                >
+                  <IconTrash size={16}></IconTrash>
+                  Archive this list
+                </button>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>

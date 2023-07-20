@@ -20,7 +20,7 @@ export const Column = ({
   changeTodos,
   changeColor,
   removeList,
-  placeholderProps,
+  placeholder,
 }: {
   list: ListItem;
   index: number;
@@ -32,7 +32,7 @@ export const Column = ({
   changeTodos: (cardIndex: number, todos: TodoItem[]) => void;
   changeColor: (cardIndex: number, color: string) => void;
   removeList: () => void;
-  placeholderProps: {
+  placeholder: {
     clientX?: number;
     clientY?: number;
     clientWidth?: number;
@@ -80,10 +80,10 @@ export const Column = ({
                     <div
                       class="absolute rounded-md bg-slate-300"
                       style={{
-                        top: placeholderProps.clientY,
-                        left: placeholderProps.clientX,
-                        width: placeholderProps.clientWidth,
-                        height: placeholderProps.offsetHeight,
+                        top: placeholder.clientY,
+                        left: placeholder.clientX,
+                        width: placeholder.clientWidth,
+                        height: placeholder.offsetHeight,
                       }}
                     ></div>
                   )}
