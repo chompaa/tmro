@@ -81,7 +81,7 @@ export const Card = ({
                 onMouseLeave={() => setHover(false)}
                 class={`min-h-10 relative mb-2 flex flex-col
                       break-all rounded-md px-3 py-2 shadow-[0_1px_1px_0_0_1px_0_0_1px_0] 
-                      shadow-slate-300 ${
+                      shadow-slate-300 transition-colors duration-300 ${
                         snapshot.isDragging ? "bg-slate-100 " : "bg-slate-50"
                       } ${color && "border-t-[12px]"} ${
                   cardState === editing || snapshot.isDragging ? "z-10" : "z-0"

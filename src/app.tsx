@@ -7,7 +7,7 @@ import {
   DroppableProvided,
   DropResult,
 } from "react-beautiful-dnd";
-import { Bar, ListForm, Column } from "./components";
+import { Bar, List, ListForm } from "./components";
 import { ListItem, CardItem, DragType, TodoItem } from "./types";
 import { getDatabase, ref, set } from "firebase/database";
 import { useAuth } from "./hooks/useAuth";
@@ -256,7 +256,7 @@ export function App() {
                 class="flex"
               >
                 {lists?.map((list: ListItem, index) => (
-                  <Column
+                  <List
                     list={list}
                     index={index}
                     changeTitle={(title: string) => changeTitle(index, title)}
@@ -279,7 +279,7 @@ export function App() {
                     }
                     removeList={() => removeList(index)}
                     placeholder={placeholder}
-                  ></Column>
+                  ></List>
                 ))}
                 {provided.placeholder}
               </div>

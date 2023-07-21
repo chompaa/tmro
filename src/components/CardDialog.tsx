@@ -92,9 +92,8 @@ export const CardDialog = ({
     >
       <div
         class={`flex h-fit max-h-full w-full cursor-default flex-col gap-4 overflow-y-auto 
-               overflow-x-hidden rounded-xl bg-slate-200 px-6 py-4 lg:max-w-2xl ${
-                 color && "border-t-[3rem]"
-               }`}
+               overflow-x-hidden rounded-xl bg-slate-200 px-6 py-4 transition-colors duration-300
+               lg:max-w-2xl ${color && "border-t-[3rem]"}`}
         style={{ borderColor: color }}
         onClick={(e: TargetedEvent<HTMLElement>) => e.stopPropagation()}
       >

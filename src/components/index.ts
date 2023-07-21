@@ -3,7 +3,6 @@ export { Card } from "./Card";
 export { CardDialog } from "./CardDialog";
 export { CardEdit } from "./CardEdit";
 export { CardForm } from "./CardForm";
-export { Column } from "./Column";
 export { DragAnimation } from "./DragAnimation";
 export { Heading } from "./Heading";
 export { IconButton } from "./IconButton";

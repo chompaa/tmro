@@ -64,7 +64,7 @@ export const Heading = ({
       <div class="relative flex w-full items-center p-2">
         <div
           class={`absolute left-0 top-0 h-full w-full ${
-            textAreaActive ? "hidden" : "cursor-pointer"
+            textAreaActive ? "hidden" : "cursor-text"
           }`}
           onClick={() => {
             setTextAreaActive(true);
@@ -73,7 +73,7 @@ export const Heading = ({
         ></div>
         <TextArea
           ref={textArea}
-          styles="box-border min-h-9 w-full cursor-pointer resize-none overflow-hidden break-words rounded 
+          styles="box-border min-h-9 w-full cursor-text resize-none overflow-hidden break-words rounded 
                   border-2 border-slate-200 bg-inherit px-3 py-1 font-semibold focus:cursor-text 
                   focus:border-slate-900 focus:bg-slate-50 focus:outline-none"
           minRows={1}
