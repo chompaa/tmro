@@ -1,5 +1,5 @@
-# trello-clone
-A trello-board-like app, featuring drag and drop capabilities, user authentication, and storage. Built with React + Tailwind. Bootsrapped with Vite. 
+# tmro
+A kanban board app, featuring drag and drop capabilities, user authentication, and storage. Built with React + Tailwind. Bootstrapped with Vite. 
 
 <p align=center>
   <img width="750" src="https://github.com/chompaa/trello-clone/assets/26204416/308404e5-4839-4056-af4f-851138405777"></img>
