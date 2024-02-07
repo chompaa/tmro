@@ -19,9 +19,7 @@ export const Bar = ({
            font-bold text-slate-50"
     >
       <div class="flex items-center gap-4">
-        <div class="relative whitespace-nowrap text-2xl md:text-3xl">
-          trello clone
-        </div>
+        <div class="relative whitespace-nowrap text-2xl md:text-3xl">tmro</div>
         <div class="relative flex h-8 w-8 items-center justify-center">
           <IconBrandGithub class="absolute"></IconBrandGithub>
           <a
