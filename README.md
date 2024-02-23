@@ -10,7 +10,7 @@ A kanban board app, featuring drag and drop capabilities, user authentication, a
 </p>
 
 ## Demo
-You can try this app for yourself. Visit <a href="http://chompaa.github.io/trello-clone" target="_blank">this link</a> to get started.
+You can try this app for yourself. Visit <a href="http://chompaa.github.io/tmro" target="_blank">this link</a> to get started.
 
 ## Development
 
